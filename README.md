@@ -76,8 +76,7 @@ Breve
 |   28 |  26jan |
 |   29 |  31jan |
 |   30 |   2fev |
-|      |   7fev | exame
-|      |   9fev | exame
+|      | 7ou9fev | exame
 
 
 ## Trabalhos, provas
