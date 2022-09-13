@@ -1,4 +1,4 @@
-#include "cpu.h"
+#include "exec.h"
 #include "term.h"
 #include "rel.h"
 #include <stdio.h>
@@ -7,7 +7,7 @@
 
 // funções auxiliares
 mem_t *init_mem(void);
-void imprime_estado(cpu_t *cpu);
+void imprime_estado(exec_t *exec);
 
 
 int main()
@@ -23,22 +23,22 @@ int main()
   es_registra_dispositivo(es, 0, term, 0, term_le, term_escr);
   es_registra_dispositivo(es, 1, rel, 0, rel_le, NULL);
   es_registra_dispositivo(es, 2, rel, 1, rel_le, NULL);
-  // cria a CPU e inicializa com a memória e E/S
-  cpu_t *cpu = cpu_cria(mem, es);
+  // cria a unidade de execução e inicializa com a memória e E/S
+  exec_t *exec = exec_cria(mem, es);
   
   // executa uma instrução por vez até CPU acusar erro
   err_t err;
   do {
-    imprime_estado(cpu);
-    err = cpu_executa_1(cpu);
+    imprime_estado(exec);
+    err = exec_executa_1(exec);
     rel_tictac(rel);
   } while (err == ERR_OK);
       
   printf("Fim da execução. Estado final:\n");
-  imprime_estado(cpu);
+  imprime_estado(exec);
   
   // destroi todo mundo!
-  cpu_destroi(cpu);
+  exec_destroi(exec);
   es_destroi(es);
   term_destroi(term);
   rel_destroi(rel);
@@ -67,12 +67,13 @@ mem_t *init_mem(void)
   return mem;
 }
 
-void imprime_estado(cpu_t *cpu)
+void imprime_estado(exec_t *exec)
 {
   cpu_estado_t *estado = cpue_cria();
-  cpu_copia_estado(cpu, estado);
-  printf("PC=%04d A=%06d X=%06d E=%d.%d\n", cpue_PC(estado), cpue_A(estado), cpue_X(estado),
-                                            cpue_erro(estado), cpue_complemento(estado));
+  exec_copia_estado(exec, estado);
+  printf("PC=%04d A=%06d X=%06d E=%d.%d\n",
+         cpue_PC(estado), cpue_A(estado), cpue_X(estado),
+         cpue_erro(estado), cpue_complemento(estado));
   cpue_destroi(estado);
 }
 

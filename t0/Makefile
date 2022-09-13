@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Werror
 
-OBJS = cpu.o cpu_estado.o es.o mem.o rel.o term.o teste.o
+OBJS = exec.o cpu_estado.o es.o mem.o rel.o term.o teste.o
 MAQS = ex1.maq ex2.maq
 TARGETS = teste montador
 
