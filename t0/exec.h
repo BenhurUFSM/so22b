@@ -1,5 +1,5 @@
-#ifndef CPU_H
-#define CPU_H
+#ifndef EXEC_H
+#define EXEC_H
 
 // simulador do executor de instruções de uma CPU
 // executa a instrução no PC se possível, ou retorna erro
@@ -14,7 +14,7 @@
 #include "es.h"
 #include "cpu_estado.h"
 
-typedef struct cpu_t cpu_t; // tipo opaco
+typedef struct exec_t exec_t; // tipo opaco
 
 // os códigos das instruções que nossa CPU sabe executar
 typedef enum {
@@ -41,17 +41,18 @@ typedef enum {
   ESCR   = 20, // 2 escrita de E/S       es[A1]=A
 } opcode_t;
 
-// cria uma CPU com acesso à memória e ao controlador de E/S fornecidos
-cpu_t *cpu_cria(mem_t *mem, es_t *es);
+// cria uma unidade de execução com acesso à memória e ao
+//   controlador de E/S fornecidos
+exec_t *exec_cria(mem_t *mem, es_t *es);
 // destrói a CPU
-void cpu_destroi(cpu_t *self);
+void exec_destroi(exec_t *self);
 
 // copia o estado interno da CPU para o local apontado por 'estado'
-void cpu_copia_estado(cpu_t *cpu, cpu_estado_t *estado);
+void exec_copia_estado(exec_t *exec, cpu_estado_t *estado);
 // altera o estado interno da CPU com o apontado por 'estado'
-void cpu_altera_estado(cpu_t *cpu, cpu_estado_t *estado);
+void exec_altera_estado(exec_t *exec, cpu_estado_t *estado);
 
 // executa uma instrução
-err_t cpu_executa_1(cpu_t *cpu);
+err_t exec_executa_1(exec_t *exec);
 
-#endif // CPU_H
+#endif // EXEC_H

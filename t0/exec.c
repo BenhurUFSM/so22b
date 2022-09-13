@@ -1,17 +1,17 @@
-#include "cpu.h"
+#include "exec.h"
 #include <stdbool.h>
 #include <stdlib.h>
 
 // uma CPU tem estado, memoria, controlador de ES
-struct cpu_t {
+struct exec_t {
   cpu_estado_t *estado;
   mem_t *mem;
   es_t *es;
 };
 
-cpu_t *cpu_cria(mem_t *mem, es_t *es)
+exec_t *exec_cria(mem_t *mem, es_t *es)
 {
-  cpu_t *self;
+  exec_t *self;
   self = malloc(sizeof(*self));
   if (self != NULL) {
     self->estado = cpue_cria();
@@ -21,19 +21,19 @@ cpu_t *cpu_cria(mem_t *mem, es_t *es)
   return self;
 }
 
-void cpu_destroi(cpu_t *self)
+void exec_destroi(exec_t *self)
 {
   // eu nao criei memoria, es; quem criou que destrua!
   cpue_destroi(self->estado);
   free(self);
 }
 
-void cpu_copia_estado(cpu_t *self, cpu_estado_t *estado)
+void exec_copia_estado(exec_t *self, cpu_estado_t *estado)
 {
   cpue_copia(self->estado, estado);
 }
 
-void cpu_altera_estado(cpu_t *self, cpu_estado_t *estado)
+void exec_altera_estado(exec_t *self, cpu_estado_t *estado)
 {
   cpue_copia(estado, self->estado);
 }
@@ -44,7 +44,7 @@ void cpu_altera_estado(cpu_t *self, cpu_estado_t *estado)
 // alteram o estado da CPU caso ocorra erro
 
 // lê um valor da memória
-static bool pega_mem(cpu_t *self, int endereco, int *pval)
+static bool pega_mem(exec_t *self, int endereco, int *pval)
 {
   err_t err = mem_le(self->mem, endereco, pval);
   if (err != ERR_OK) {
@@ -54,29 +54,29 @@ static bool pega_mem(cpu_t *self, int endereco, int *pval)
 }
 
 // lê o opcode da instrução no PC
-static bool pega_opcode(cpu_t *self, int *popc)
+static bool pega_opcode(exec_t *self, int *popc)
 {
   return pega_mem(self, cpue_PC(self->estado), popc);
 }
 
 // lê o argumento 1 da instrução no PC
-static bool pega_A1(cpu_t *self, int *pA1)
+static bool pega_A1(exec_t *self, int *pA1)
 {
   return pega_mem(self, cpue_PC(self->estado) + 1, pA1);
 }
 
-static void incrementa_PC(cpu_t *self)
+static void incrementa_PC(exec_t *self)
 {
    cpue_muda_PC(self->estado, cpue_PC(self->estado) + 1);
 }
 
-static void incrementa_PC2(cpu_t *self)
+static void incrementa_PC2(exec_t *self)
 {
    cpue_muda_PC(self->estado, cpue_PC(self->estado) + 2);
 }
 
 // escreve um valor na memória
-static bool poe_mem(cpu_t *self, int endereco, int val)
+static bool poe_mem(exec_t *self, int endereco, int val)
 {
   err_t err = mem_escreve(self->mem, endereco, val);
   if (err != ERR_OK) {
@@ -86,7 +86,7 @@ static bool poe_mem(cpu_t *self, int endereco, int val)
 }
 
 // lê um valor da E/S
-static bool pega_es(cpu_t *self, int dispositivo, int *pval)
+static bool pega_es(exec_t *self, int dispositivo, int *pval)
 {
   err_t err = es_le(self->es, dispositivo, pval);
   if (err != ERR_OK) {
@@ -96,7 +96,7 @@ static bool pega_es(cpu_t *self, int dispositivo, int *pval)
 }
 
 // escreve um valor na E/S
-static bool poe_es(cpu_t *self, int dispositivo, int val)
+static bool poe_es(exec_t *self, int dispositivo, int val)
 {
   err_t err = es_escreve(self->es, dispositivo, val);
   if (err != ERR_OK) {
@@ -108,17 +108,17 @@ static bool poe_es(cpu_t *self, int dispositivo, int val)
 // ---------------------------------------------------------------------
 // funções auxiliares para implementação de cada instrução
 
-static void op_NOP(cpu_t *self) // não faz nada
+static void op_NOP(exec_t *self) // não faz nada
 {
   incrementa_PC(self);
 }
 
-static void op_PARA(cpu_t *self) // para a CPU
+static void op_PARA(exec_t *self) // para a CPU
 {
   cpue_muda_erro(self->estado, ERR_CPU_PARADA, 0);
 }
 
-static void op_CARGI(cpu_t *self) // carrega imediato
+static void op_CARGI(exec_t *self) // carrega imediato
 {
   int A1;
   if (pega_A1(self, &A1)) {
@@ -127,7 +127,7 @@ static void op_CARGI(cpu_t *self) // carrega imediato
   }
 }
 
-static void op_CARGM(cpu_t *self) // carrega da memória
+static void op_CARGM(exec_t *self) // carrega da memória
 {
   int A1, mA1;
   if (pega_A1(self, &A1) && pega_mem(self, A1, &mA1)) {
@@ -136,7 +136,7 @@ static void op_CARGM(cpu_t *self) // carrega da memória
   }
 }
 
-static void op_CARGX(cpu_t *self) // carrega indexado
+static void op_CARGX(exec_t *self) // carrega indexado
 {
   int A1, mA1mX;
   int X = cpue_X(self->estado);
@@ -146,7 +146,7 @@ static void op_CARGX(cpu_t *self) // carrega indexado
   }
 }
 
-static void op_ARMM(cpu_t *self) // armazena na memória
+static void op_ARMM(exec_t *self) // armazena na memória
 {
   int A1;
   if (pega_A1(self, &A1) && poe_mem(self, A1, cpue_A(self->estado))) {
@@ -154,7 +154,7 @@ static void op_ARMM(cpu_t *self) // armazena na memória
   }
 }
 
-static void op_ARMX(cpu_t *self) // armazena indexado
+static void op_ARMX(exec_t *self) // armazena indexado
 {
   int A1;
   int X = cpue_X(self->estado);
@@ -163,25 +163,25 @@ static void op_ARMX(cpu_t *self) // armazena indexado
   }
 }
 
-static void op_MVAX(cpu_t *self) // copia A para X
+static void op_MVAX(exec_t *self) // copia A para X
 {
   cpue_muda_X(self->estado, cpue_A(self->estado));
   incrementa_PC(self);
 }
 
-static void op_MVXA(cpu_t *self) // copia X para A
+static void op_MVXA(exec_t *self) // copia X para A
 {
   cpue_muda_A(self->estado, cpue_X(self->estado));
   incrementa_PC(self);
 }
 
-static void op_INCX(cpu_t *self) // incrementa X
+static void op_INCX(exec_t *self) // incrementa X
 {
   cpue_muda_X(self->estado, cpue_X(self->estado)+1);
   incrementa_PC(self);
 }
 
-static void op_SOMA(cpu_t *self) // soma
+static void op_SOMA(exec_t *self) // soma
 {
   int A1, mA1;
   if (pega_A1(self, &A1) && pega_mem(self, A1, &mA1)) {
@@ -190,7 +190,7 @@ static void op_SOMA(cpu_t *self) // soma
   }
 }
 
-static void op_SUB(cpu_t *self) // subtração
+static void op_SUB(exec_t *self) // subtração
 {
   int A1, mA1;
   if (pega_A1(self, &A1) && pega_mem(self, A1, &mA1)) {
@@ -199,7 +199,7 @@ static void op_SUB(cpu_t *self) // subtração
   }
 }
 
-static void op_MULT(cpu_t *self) // multiplicação
+static void op_MULT(exec_t *self) // multiplicação
 {
   int A1, mA1;
   if (pega_A1(self, &A1) && pega_mem(self, A1, &mA1)) {
@@ -208,7 +208,7 @@ static void op_MULT(cpu_t *self) // multiplicação
   }
 }
 
-static void op_DIV(cpu_t *self) // divisão
+static void op_DIV(exec_t *self) // divisão
 {
   int A1, mA1;
   if (pega_A1(self, &A1) && pega_mem(self, A1, &mA1)) {
@@ -217,7 +217,7 @@ static void op_DIV(cpu_t *self) // divisão
   }
 }
 
-static void op_RESTO(cpu_t *self) // resto
+static void op_RESTO(exec_t *self) // resto
 {
   int A1, mA1;
   if (pega_A1(self, &A1) && pega_mem(self, A1, &mA1)) {
@@ -226,13 +226,13 @@ static void op_RESTO(cpu_t *self) // resto
   }
 }
 
-static void op_NEG(cpu_t *self) // inverte sinal
+static void op_NEG(exec_t *self) // inverte sinal
 {
   cpue_muda_A(self->estado, -cpue_A(self->estado));
   incrementa_PC(self);
 }
 
-static void op_DESV(cpu_t *self) // desvio incondicional
+static void op_DESV(exec_t *self) // desvio incondicional
 {
   int A1;
   if (pega_A1(self, &A1)) {
@@ -240,7 +240,7 @@ static void op_DESV(cpu_t *self) // desvio incondicional
   }
 }
 
-static void op_DESVZ(cpu_t *self) // desvio condicional
+static void op_DESVZ(exec_t *self) // desvio condicional
 {
   if (cpue_A(self->estado) == 0) {
     op_DESV(self);
@@ -249,7 +249,7 @@ static void op_DESVZ(cpu_t *self) // desvio condicional
   }
 }
 
-static void op_DESVNZ(cpu_t *self) // desvio condicional
+static void op_DESVNZ(exec_t *self) // desvio condicional
 {
   if (cpue_A(self->estado) != 0) {
     op_DESV(self);
@@ -258,7 +258,7 @@ static void op_DESVNZ(cpu_t *self) // desvio condicional
   }
 }
 
-static void op_LE(cpu_t *self) // leitura de E/S
+static void op_LE(exec_t *self) // leitura de E/S
 {
   int A1, dado;
   if (pega_A1(self, &A1) && pega_es(self, A1, &dado)) {
@@ -267,7 +267,7 @@ static void op_LE(cpu_t *self) // leitura de E/S
   }
 }
 
-static void op_ESCR(cpu_t *self) // escrita de E/S
+static void op_ESCR(exec_t *self) // escrita de E/S
 {
   int A1;
   if (pega_A1(self, &A1) && poe_es(self, A1, cpue_A(self->estado))) {
@@ -276,7 +276,7 @@ static void op_ESCR(cpu_t *self) // escrita de E/S
 }
 
 
-err_t cpu_executa_1(cpu_t *self)
+err_t exec_executa_1(exec_t *self)
 {
   // não executa se CPU já estiver em erro
   if (cpue_erro(self->estado) != ERR_OK) return cpue_erro(self->estado);
