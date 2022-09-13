@@ -83,7 +83,7 @@ Breve
 
 |    id |      prazo | assunto
 | ----: | ---------: | :-----------
-|    T0 |            | [simulador de CPU](https://github.com/BenhurUFSM/so22b/t0)
+|    T0 |            | [simulador de CPU](https://github.com/BenhurUFSM/so22b/t0/README.md)
 
 ## Ementa
 
