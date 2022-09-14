@@ -4,7 +4,7 @@ Familiarize-se com o código anexo, que simula uma pequena CPU, que será usada 
 
 Para auxiliar na familiarização com o código, implemente um novo dispositivo, que fornece um número aleatório a cada leitura.
 
-Para auxiliar na familiarização com a CPU, implemente um programa que lê 10 valores desse dispositivo e imprime os 10 valores em ordem crescente no terminal.
+Para auxiliar na familiarização com a CPU, implemente um programa que lê 10 valores desse dispositivo e imprime os 10 valores no terminal. Pode aumentar o grau de dificuldade imprimindo eles em ordem crescente.
 
 ### Descrição sucinta
 
@@ -26,4 +26,4 @@ A implementação está dividida em vários módulos:
 - teste.c, um programa para testar os módulos acima, executando um programa
 - ex1 e ex2.asm, dois programinhas de teste em linguagem de montagem
 - montador.c, um montador para transformar programas .asm em .maq (em linguagem de máquina)
-- Makefile, para facilitar a compilação da tralha toda (coloque todos esses arquivos em um diretório e execute o programa 'make' nesse diretório)
+- Makefile, para facilitar a compilação da tralha toda (coloque todos esses arquivos em um diretório e execute o programa 'make' nesse diretório, se tudo der certo, um executável 'teste' será gerado)
