@@ -26,4 +26,4 @@ A implementação está dividida em vários módulos:
 - teste.c, um programa para testar os módulos acima, executando um programa
 - ex1 e ex2.asm, dois programinhas de teste em linguagem de montagem
 - montador.c, um montador para transformar programas .asm em .maq (em linguagem de máquina)
-- Makefile, para facilitar a compilação da tralha toda
+- Makefile, para facilitar a compilação da tralha toda (coloque todos esses arquivos em um diretório e execute o programa 'make' nesse diretório)
