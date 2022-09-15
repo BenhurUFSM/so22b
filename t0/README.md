@@ -27,3 +27,21 @@ A implementação está dividida em vários módulos:
 - ex1 e ex2.asm, dois programinhas de teste em linguagem de montagem
 - montador.c, um montador para transformar programas .asm em .maq (em linguagem de máquina)
 - Makefile, para facilitar a compilação da tralha toda (coloque todos esses arquivos em um diretório e execute o programa 'make' nesse diretório, se tudo der certo, um executável 'teste' será gerado)
+
+O make é meio exigente com o formato do Makefile, as linhas que não iniciam na coluna 1 tem que iniciar com um caractere tab.
+Se tiver tendo problemas pra compilar, aqui tá o que o make faz:
+```
+[benhur@nababinho t0]$ make
+gcc -Wall -Werror    montador.c   -o montador
+./montador ex1.asm > ex1.maq
+./montador ex2.asm > ex2.maq
+gcc -Wall -Werror   -c -o teste.o teste.c
+gcc -Wall -Werror   -c -o exec.o exec.c
+gcc -Wall -Werror   -c -o cpu_estado.o cpu_estado.c
+gcc -Wall -Werror   -c -o es.o es.c
+gcc -Wall -Werror   -c -o mem.o mem.c
+gcc -Wall -Werror   -c -o rel.o rel.c
+gcc -Wall -Werror   -c -o term.o term.c
+gcc   teste.o exec.o cpu_estado.o es.o mem.o rel.o term.o   -o teste
+[benhur@nababinho t0]$ 
+```
