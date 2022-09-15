@@ -23,7 +23,7 @@ A implementação está dividida em vários módulos:
 - term, um terminal
 - cpu_estado, mantém o estado interno da CPU
 - err.h, define um tipo para codificar os erros
-- teste.c, um programa para testar os módulos acima, executando um programa
+- teste.c, um programa para testar os módulos acima, executando um programa (tá executando o ex1, para executar o ex2 tem que alterar o fonte)
 - ex1 e ex2.asm, dois programinhas de teste em linguagem de montagem
 - montador.c, um montador para transformar programas .asm em .maq (em linguagem de máquina)
 - Makefile, para facilitar a compilação da tralha toda (coloque todos esses arquivos em um diretório e execute o programa 'make' nesse diretório, se tudo der certo, um executável 'teste' será gerado)
