@@ -37,8 +37,8 @@ Ao final da execução bem sucedida de uma instrução, caso não seja uma instr
 |     10 | SOMA   | 1    | A+=mem[A1] | soma |
 |     11 | SUB    | 1    | A-=mem[A1] | subtração |
 |     12 | MULT   | 1    | A*=mem[A1] | multiplicação |
-|     13 | DIV    | 1    | A/=mem[A1] | divisão |
-|     14 | RESTO  | 1    | A%=mem[A1] | resto |
+|     13 | DIV    | 1    | A/=mem[A1] | quociente da divisão |
+|     14 | RESTO  | 1    | A%=mem[A1] | resto da divisão |
 |     15 | NEG    | 0    | A=-A       | negação |
 |     16 | DESV   | 1    | PC=A1      | desvio |
 |     17 | DESVZ  | 1    | se A for 0, PC=A1 | desvio condicional |
