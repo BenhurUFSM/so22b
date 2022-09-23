@@ -14,6 +14,41 @@ A CPU tem 3 registradores:
 - X, registrador auxiliar, usado para acessos indexados à memória
 
 Além desse, tem um registrador de erro, para quando a CPU detecta algum problema.
+Todos os registradores são inicializados em 0.
+
+As instruções que o processador reconhece (por enquanto) estão na tabela abaixo.
+Uma intrução pode ocupar uma ou duas posições de memória. A primeira é o código da instrução (campo `código`, entre 0 e 20 na tabela abaixo, o o valor em `mem[PC]`), a segunda é o argumento da instrução. Na tabela, o campo `#arg` contém 0 para instruções sem argumento e 1 para as que ocupam duas posições.
+No campo `operação`, 
+**PC** é o valor do registrador contador de programa, **A** é o valor do registrador acumulador, **X** é o valor do registrador auxiliar, **A1** é o primeiro argumento da instrução (o valor em mem[PC+1]).
+Ao final da execução bem sucedida de uma instrução, caso não seja uma instrução de desvio que causou a alteração do PC, o PC é incrementado para apontar para a instrução seguinte (levando em consideração o número de argumentos da instrução).
+
+| código |   nome | #arg | operação  | descrição |
+| -----: | :----- | :--: | :-------- | :-------- |
+|      0 | NOP    | 0    | -         | não faz nada |
+|      1 | PARA   | 0    | err=ERR_CPU_PARADA | para a CPU |
+|      2 | CARGI  | 1    | A=A1      | carrega imediato |
+|      3 | CARGM  | 1    | A=mem[A1] | carrega da memória |
+|      4 | CARGX  | 1    | A=mem[A1+X] | carrega indexado |
+|      5 | ARMM   | 1    | mem[A1]=A | armazena na memória |
+|      6 | ARMX   | 1    | mem[A1+X]=A | armazena indexado |
+|      7 | MVAX   | 0    | X=A       | inicializa X |
+|      8 | MVXA   | 0    | A=X       | recupera X |
+|      9 | INCX   | 0    | X++       | incrementa X |
+|     10 | SOMA   | 1    | A+=mem[A1] | soma |
+|     11 | SUB    | 1    | A-=mem[A1] | subtração |
+|     12 | MULT   | 1    | A*=mem[A1] | multiplicação |
+|     13 | DIV    | 1    | A/=mem[A1] | divisão |
+|     14 | RESTO  | 1    | A%=mem[A1] | resto |
+|     15 | NEG    | 0    | A=-A       | negação |
+|     16 | DESV   | 1    | PC=A1      | desvio |
+|     17 | DESVZ  | 1    | se A for 0, PC=A1 | desvio condicional |
+|     18 | DESVNZ | 1    | se A não for 0, PC=A1 | desvio condicional |
+|     19 | LE     | 1    | A=es[A1]   | leitura de E/S |
+|     20 | ESCR   | 1    | es[A1]=A   | escrita de E/S |
+
+A CPU só executa uma instrução se o registrador de erro indicar que a CPU não está em erro (valor ERR_OK).
+A execução de uma instrução pode colocar a CPU em erro, por tentativa de execução de instrução ilegal, acesso a posição inválida de memória, acesso a dispositivo de E/S inexistente, etc. 
+
 
 A implementação está dividida em vários módulos:
 - exec, o executor de instruções
