@@ -34,10 +34,10 @@ Breve
 
 |    N |   data | assunto
 | ---: | :----: | :--------
-|    1 |  13set | [introdução]
-|    2 |  15set | 
+|    1 |  13set | introdução (descrição do [simulador](t0), seção 1.1 do livro)
+|    2 |  15set | introdução (seção 1.2–1.2.3 do livro)
 |      |  20set | feriado
-|    3 |  22set | 
+|    3 |  22set | introdução (1.2.3–1.3.1)
 |    4 |  27set |
 |    5 |  29set | 
 |    6 |   4out |
@@ -79,11 +79,12 @@ Breve
 |      | 7ou9fev | exame
 
 
-## Trabalhos, provas
+## Trabalhos, provas, exercícios
 
 |    id |      prazo | assunto
 | ----: | ---------: | :-----------
 |    T0 |            | [simulador de CPU](t0)
+|    E1 |      28set | simulador de dispositivo de leitura de números aleatórios
 
 ## Ementa
 
