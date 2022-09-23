@@ -17,9 +17,9 @@ Além desse, tem um registrador de erro, para quando a CPU detecta algum problem
 Todos os registradores são inicializados em 0.
 
 As instruções que o processador reconhece (por enquanto) estão na tabela abaixo.
-Uma intrução pode ocupar uma ou duas posições de memória. A primeira é o código da instrução (campo `código`, entre 0 e 20 na tabela abaixo, o o valor em `mem[PC]`), a segunda é o argumento da instrução. Na tabela, o campo `#arg` contém 0 para instruções sem argumento e 1 para as que ocupam duas posições.
-No campo `operação`, 
-**PC** é o valor do registrador contador de programa, **A** é o valor do registrador acumulador, **X** é o valor do registrador auxiliar, **A1** é o primeiro argumento da instrução (o valor em mem[PC+1]).
+
+Uma intrução pode ocupar uma ou duas posições de memória. A primeira é o código da instrução (campo `código`, entre 0 e 20 na tabela abaixo, o o valor em `mem[PC]`), a segunda é o argumento da instrução (o valor em mem[PC+1], chamado A1 na tabela). O campo `#arg` contém 0 para instruções sem argumento e 1 para as que ocupam duas posições.
+
 Ao final da execução bem sucedida de uma instrução, caso não seja uma instrução de desvio que causou a alteração do PC, o PC é incrementado para apontar para a instrução seguinte (levando em consideração o número de argumentos da instrução).
 
 | código |   nome | #arg | operação  | descrição |
