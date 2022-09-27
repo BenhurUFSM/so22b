@@ -86,6 +86,8 @@ Breve
 |    T0 |            | [simulador de CPU](t0)
 |    E1 |      28set | simulador de dispositivo de leitura de números aleatórios
 
+Entrega do E1: junte os arquivos em um tar ou zip, envie por mail para benhur+so22b@inf.ufsm.br com assunto "SO-E1".
+
 ## Ementa
 
 Ver [aqui](https://www.ufsm.br/ementario/disciplinas/elc1080/).
