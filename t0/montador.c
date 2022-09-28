@@ -268,7 +268,7 @@ void monta_linha(int linha, char *label, char *instrucao, char *arg)
     simb_novo(label, mem_pos);
   }
   
-  // verifica a existência de instrução e número coreto de argumentos
+  // verifica a existência de instrução e número correto de argumentos
   if (instrucao == NULL) return;
   if (num_instr == -1) {
     fprintf(stderr, "ERRO: linha %d: instrucao '%s' desconhecida\n",
