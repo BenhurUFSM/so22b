@@ -38,7 +38,7 @@ Breve
 |    2 |  15set | introdução (seção 1.2–1.2.3 do livro)
 |      |  20set | feriado
 |    3 |  22set | introdução (1.2.3–1.3.1)
-|    4 |  27set |
+|    4 |  27set | introdução (-1.5.1)
 |    5 |  29set | 
 |    6 |   4out |
 |    7 |   6out | 
