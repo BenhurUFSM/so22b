@@ -36,4 +36,10 @@ void cpue_muda_PC(cpu_estado_t *self, int val);
 void cpue_muda_A(cpu_estado_t *self, int val);
 void cpue_muda_X(cpu_estado_t *self, int val);
 void cpue_muda_erro(cpu_estado_t *self, err_t err, int complemento);
+
+void cpue_define_status_flag(cpu_estado_t *self,int val);
+short cpue_verifica_igual_flag(cpu_estado_t *self);
+short cpue_verifica_maior_flag(cpu_estado_t *self);
+short cpue_verifica_menor_flag(cpu_estado_t *self);
+
 #endif // CPU_E_H

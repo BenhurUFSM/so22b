@@ -6,6 +6,14 @@ struct cpu_estado_t {
   int PC;
   int A;
   int X;
+  /**
+   * Bits:
+   * 0 - A maior
+   * 1 - Dado é maior
+   * 2 - A e Dado são iguais
+   **/
+  short FLAGS;
+  
   err_t erro;
   int complemento;
 };
@@ -80,3 +88,21 @@ void cpue_muda_erro(cpu_estado_t *self, err_t err, int complemento)
   self->complemento = complemento;
 }
 
+void cpue_define_status_flag(cpu_estado_t *self,int val){
+  if(val==0){
+      self->FLAGS = 1<<2; // Define a flag de igual
+  }else if (val>0){
+      self->FLAGS = 1<<0; // Define de maior
+  }else{
+      self->FLAGS = 1<<1; // Define de menor
+  }
+}
+short cpue_verifica_igual_flag(cpu_estado_t *self){
+  return self->FLAGS&(1<<2);
+}
+short cpue_verifica_maior_flag(cpu_estado_t *self){
+  return self->FLAGS&(1<<0);
+}
+short cpue_verifica_menor_flag(cpu_estado_t *self){
+  return self->FLAGS&(1<<1);
+}
