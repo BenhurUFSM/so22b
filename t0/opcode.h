@@ -35,5 +35,10 @@
         DESVA  = 22,
         DESVB  = 23,
         DESVE  = 24,
+
+        PUSHA  = 25,
+        POPA   = 26,
+        PUSHX  = 25,
+        POPX   = 26,
     } opcode_t;
 #endif

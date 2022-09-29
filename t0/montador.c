@@ -192,6 +192,11 @@ struct {
   { "DESVA",  1,  DESVA },
   { "DESVB",  1,  DESVB },
   { "DESVE",  1,  DESVE },
+
+  { "PUSHA",  0,  PUSHA },
+  { "POPA",   0,  POPA },
+  { "PUSHX",  0,  PUSHX },
+  { "POPX",   0,  POPX },
 };
 #define INSTR_NUM (sizeof(instrucoes)/sizeof(instrucoes[0]))
 

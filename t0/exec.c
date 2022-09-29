@@ -15,6 +15,7 @@ exec_t *exec_cria(mem_t *mem, es_t *es)
   self = malloc(sizeof(*self));
   if (self != NULL) {
     self->estado = cpue_cria();
+    cpue_muda_SP(self->estado,mem_heap(mem));
     self->mem = mem;
     self->es = es;
   }
@@ -308,6 +309,28 @@ static void op_DESVE(exec_t *self) // desvio condicional
     incrementa_PC2(self);
   }
 }
+static void op_PUSHA(exec_t *self) // desvio condicional
+{
+  int sp = cpue_SP(self->estado);
+  if(poe_mem(self, sp,cpue_A(self->estado))){
+    cpue_muda_SP(sp+1);
+    incrementa_PC2(self);
+  }else{
+    cpue_muda_erro(self->estado, ERR_ESTOURO_PILHA, sp);
+  }
+}
+static void op_POPA(exec_t *self) // desvio condicional
+{
+  int sp = cpue_SP(self->estado);
+  int val;
+  if(mem_heap(self->mem)<sp && pega_mem(self, sp-1,&val)){
+    cpue_muda_SP(self,sp-1);
+    cpue_muda_A(self,val);
+    incrementa_PC2(self);
+  }else{
+    cpue_muda_erro(self->estado, ERR_ESTOURO_PILHA, sp);
+  }
+}
 
 #include <stdio.h>
 
@@ -346,6 +369,8 @@ err_t exec_executa_1(exec_t *self)
     case DESVA:  op_DESVA(self);  break;
     case DESVB:  op_DESVB(self);  break;
     case DESVE:  op_DESVE(self);  break;
+    case POPA:   op_POPA(self);   break;
+    case PUSHA:  op_PUSHA(self);  break;
     default:     cpue_muda_erro(self->estado, ERR_INSTR_INV, 0);
   }
 
