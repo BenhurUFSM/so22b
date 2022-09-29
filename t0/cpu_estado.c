@@ -6,6 +6,7 @@ struct cpu_estado_t {
   int PC;
   int A;
   int X;
+  int SP;
   /**
    * Bits:
    * 0 - A maior
@@ -57,6 +58,10 @@ int cpue_X(cpu_estado_t *self)
   return self->X;
 }
 
+int cpue_SP(cpu_estado_t *self){
+  return self->SP;
+}
+
 err_t cpue_erro(cpu_estado_t *self)
 {
   return self->erro;
@@ -80,6 +85,10 @@ void cpue_muda_A(cpu_estado_t *self, int val)
 void cpue_muda_X(cpu_estado_t *self, int val)
 {
   self->X = val;
+}
+
+void cpue_muda_SP(cpu_estado_t *self,int val){
+  self->SP = val;
 }
 
 void cpue_muda_erro(cpu_estado_t *self, err_t err, int complemento)

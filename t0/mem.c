@@ -5,15 +5,18 @@
 struct mem_t {
   int tam;
   int *conteudo;
+  int comeco_heap;
 };
 
-mem_t *mem_cria(int tam)
+mem_t *mem_cria(int tam,int heapsize)
 {
   mem_t *self;
   self = malloc(sizeof(*self));
+  tam+=heapsize;
   if (self != NULL) {
     self->tam = tam;
     self->conteudo = malloc(tam * sizeof(*(self->conteudo)));
+    self->comeco_heap = tam;
     if (self->conteudo == NULL) {
       free(self);
       self = NULL;
@@ -30,6 +33,10 @@ void mem_destroi(mem_t *self)
     }
     free(self);
   }
+}
+
+int mem_heap(mem_t *self){
+  return self->comeco_heap;
 }
 
 int mem_tam(mem_t *self)

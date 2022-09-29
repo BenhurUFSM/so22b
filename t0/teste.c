@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define MEMORIA_HEAP 64
+
 // funções auxiliares
 mem_t *init_mem(void);
 void imprime_estado(exec_t *exec);
@@ -57,7 +59,7 @@ mem_t *init_mem(void)
   int tam_progr = sizeof(progr)/sizeof(progr[0]);
                 
   // cria uma memória e inicializa com o programa 
-  mem_t *mem = mem_cria(tam_progr);
+  mem_t *mem = mem_cria(tam_progr,TAM_PILHA);
   for (int i = 0; i < tam_progr; i++) {
     if (mem_escreve(mem, i, progr[i]) != ERR_OK) {
       printf("Erro de memória, endereco %d\n", i);

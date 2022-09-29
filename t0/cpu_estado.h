@@ -25,6 +25,8 @@ int cpue_PC(cpu_estado_t *self);
 int cpue_A(cpu_estado_t *self);
 // retorna o valor do registrador 'X'
 int cpue_X(cpu_estado_t *self);
+// retorna o valor do registrador 'X'
+int cpue_SP(cpu_estado_t *self);
 // retorna o valor do erro interno da CPU
 err_t cpue_erro(cpu_estado_t *self);
 // retorna o valor do complemento do erro (por exemplo, o endereço em que ocorreu um erro
@@ -35,11 +37,13 @@ int cpue_complemento(cpu_estado_t *self);
 void cpue_muda_PC(cpu_estado_t *self, int val);
 void cpue_muda_A(cpu_estado_t *self, int val);
 void cpue_muda_X(cpu_estado_t *self, int val);
+void cpue_muda_SP(cpu_estado_t *self,int val);
 void cpue_muda_erro(cpu_estado_t *self, err_t err, int complemento);
 
 void cpue_define_status_flag(cpu_estado_t *self,int val);
 short cpue_verifica_igual_flag(cpu_estado_t *self);
 short cpue_verifica_maior_flag(cpu_estado_t *self);
 short cpue_verifica_menor_flag(cpu_estado_t *self);
+
 
 #endif // CPU_E_H

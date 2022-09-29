@@ -22,6 +22,9 @@ void mem_destroi(mem_t *self);
 // retorna o tamanho da região de memória (número de valores que comporta)
 int mem_tam(mem_t *self);
 
+// retorna o endereço que começa a memoria heap
+int mem_heap(mem_t *self);
+
 // coloca na posição apontada por 'pvalor' o valor no endereço 'endereco'
 // retorna erro ERR_END_INV (e não altera '*pvalor') se endereço inválido
 err_t mem_le(mem_t *self, int endereco, int *pvalor);
