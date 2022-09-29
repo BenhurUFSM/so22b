@@ -251,7 +251,7 @@ void monta_linha(int linha, char *label, char *instrucao, char *arg)
   // pseudo-instrução DEFINE tem que ser tratada antes, porque não pode
   //   definir o label de forma normal
   
-  if (num_instr == DEFINE) {
+  if (instrucoes[num_instr].opcode == DEFINE) {
     int argn;  // para conter o valor numérico do argumento
     if (label == NULL) {
       fprintf(stderr, "ERRO: linha %d: 'DEFINE' exige um label\n",

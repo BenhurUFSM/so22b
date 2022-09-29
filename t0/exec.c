@@ -275,13 +275,6 @@ static void op_ESCR(exec_t *self) // escrita de E/S
   }
 }
 
-static void op_ESCR(exec_t *self) // escrita de E/S
-{
-  int A1;
-  if (pega_A1(self, &A1) && poe_es(self, A1, cpue_A(self->estado))) {
-    incrementa_PC2(self);
-  }
-}
 static void op_CMPA(exec_t *self) // compara A com A1
 {
   int A1, mA1;
@@ -315,6 +308,8 @@ static void op_DESVE(exec_t *self) // desvio condicional
     incrementa_PC2(self);
   }
 }
+
+#include <stdio.h>
 
 
 err_t exec_executa_1(exec_t *self)

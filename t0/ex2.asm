@@ -3,11 +3,11 @@
 ;   (no programa de teste, esses dispositivos são conectados ao relógio,
 ;   o 1 obtém o contador de instruções, o 2 o tempo externo de CPU)
 
-N    DEFINE 10
+N    DEFINE 4
      CARGI 0
      MVAX         ; x=0
      CARGI N
-     ARMM cont    ; cont=10
+     ARMM cont    ; cont=4
 ali  MVXA
      ESCR 0       ; print x
      LE 1
@@ -16,7 +16,8 @@ ali  MVXA
      ESCR 0
      INCX         ; x++
      MVXA
-     SUB cont
-     DESVNZ ali   ; if x != cont goto ali
+     CMPA cont  ; faz cmp A,[A1]
+     DESVE ali   ; if A = [cont] goto ali
+     DESVB ali   ; if A < [cont] goto ali
      PARA         ; stop
 cont ESPACO 1
