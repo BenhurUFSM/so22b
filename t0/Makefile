@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Werror
 
 OBJS = exec.o cpu_estado.o es.o mem.o rel.o term.o teste.o
-MAQS = ex1.maq ex2.maq
+MAQS = ex1.maq ex2.maq ex3.maq
 TARGETS = teste montador
 
 all: ${TARGETS}
