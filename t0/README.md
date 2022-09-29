@@ -45,6 +45,10 @@ Ao final da execução bem sucedida de uma instrução, caso não seja uma instr
 |     18 | DESVNZ | 1    | se A não for 0, PC=A1 | desvio condicional |
 |     19 | LE     | 1    | A=es[A1]   | leitura de E/S |
 |     20 | ESCR   | 1    | es[A1]=A   | escrita de E/S |
+|     21 | CMP    | 1    | FLAGS=cmp(A,[A1]) | compara e define as flags de acordo |
+|     22 | DESVA  | 1    | se o bit de A>[A1] estiver definido nas flags, PC=A1 | desvio condicional |
+|     23 | DESVB  | 1    | se o bit de A<[A1] estiver definido nas flags, PC=A1 | desvio condicional |
+|     24 | DESVE  | 1    | se o bit de A=[A1] estiver definido nas flags, PC=A1 | desvio condicional |
 
 A CPU só executa uma instrução se o registrador de erro indicar que a CPU não está em erro (valor ERR_OK).
 A execução de uma instrução pode colocar a CPU em erro, por tentativa de execução de instrução ilegal, acesso a posição inválida de memória, acesso a dispositivo de E/S inexistente, etc. 
@@ -58,6 +62,7 @@ A implementação está dividida em vários módulos:
 - term, um terminal
 - cpu_estado, mantém o estado interno da CPU
 - err.h, define um tipo para codificar os erros
+- opcode.h, padroniza o opcode dos comandos tanto para o montador quanto para o executador
 - teste.c, um programa para testar os módulos acima, executando um programa (tá executando o ex1, para executar o ex2 tem que alterar o fonte)
 - ex1 e ex2.asm, dois programinhas de teste em linguagem de montagem
 - montador.c, um montador para transformar programas .asm em .maq (em linguagem de máquina)

@@ -275,6 +275,47 @@ static void op_ESCR(exec_t *self) // escrita de E/S
   }
 }
 
+static void op_ESCR(exec_t *self) // escrita de E/S
+{
+  int A1;
+  if (pega_A1(self, &A1) && poe_es(self, A1, cpue_A(self->estado))) {
+    incrementa_PC2(self);
+  }
+}
+static void op_CMPA(exec_t *self) // compara A com A1
+{
+  int A1, mA1;
+  if (pega_A1(self, &A1) && pega_mem(self, A1, &mA1)) {
+    cpue_define_status_flag(self->estado,cpue_A(self->estado)-mA1);
+    incrementa_PC2(self);
+  }
+}
+
+static void op_DESVA(exec_t *self) // desvio condicional
+{
+  if (cpue_verifica_maior_flag(self->estado)!=0) {
+    op_DESV(self);
+  } else {
+    incrementa_PC2(self);
+  }
+}
+static void op_DESVB(exec_t *self) // desvio condicional
+{
+  if (cpue_verifica_menor_flag(self->estado)!=0) {
+    op_DESV(self);
+  } else {
+    incrementa_PC2(self);
+  }
+}
+static void op_DESVE(exec_t *self) // desvio condicional
+{
+  if (cpue_verifica_igual_flag(self->estado)!=0) {
+    op_DESV(self);
+  } else {
+    incrementa_PC2(self);
+  }
+}
+
 
 err_t exec_executa_1(exec_t *self)
 {
@@ -306,6 +347,10 @@ err_t exec_executa_1(exec_t *self)
     case DESVNZ: op_DESVNZ(self); break;
     case LE:     op_LE(self);     break;
     case ESCR:   op_ESCR(self);   break;
+    case CMPA:   op_CMPA(self);   break;
+    case DESVA:  op_DESVA(self);  break;
+    case DESVB:  op_DESVB(self);  break;
+    case DESVE:  op_DESVE(self);  break;
     default:     cpue_muda_erro(self->estado, ERR_INSTR_INV, 0);
   }
 
