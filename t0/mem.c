@@ -12,11 +12,10 @@ mem_t *mem_cria(int tam,int heapsize)
 {
   mem_t *self;
   self = malloc(sizeof(*self));
-  tam+=heapsize;
   if (self != NULL) {
-    self->tam = tam;
-    self->conteudo = malloc(tam * sizeof(*(self->conteudo)));
     self->comeco_heap = tam;
+    self->tam = tam+heapsize;
+    self->conteudo = malloc(self->tam * sizeof(*(self->conteudo)));
     if (self->conteudo == NULL) {
       free(self);
       self = NULL;

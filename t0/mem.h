@@ -13,7 +13,7 @@ typedef struct mem_t mem_t;
 // retorna um ponteiro para um descritor, que deverá ser usado em todas
 //   as operações sobre essa memória
 // retorna NULL em caso de erro
-mem_t *mem_cria(int tam);
+mem_t *mem_cria(int tam,int heap);
 
 // destrói uma região de memória
 // nenhuma outra operação pode ser realizada na região após esta chamada
