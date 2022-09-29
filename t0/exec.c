@@ -313,7 +313,7 @@ static void op_PUSHA(exec_t *self) // desvio condicional
 {
   int sp = cpue_SP(self->estado);
   if(poe_mem(self, sp,cpue_A(self->estado))){
-    cpue_muda_SP(sp+1);
+    cpue_muda_SP(self->estado,sp+1);
     incrementa_PC2(self);
   }else{
     cpue_muda_erro(self->estado, ERR_ESTOURO_PILHA, sp);
@@ -324,8 +324,8 @@ static void op_POPA(exec_t *self) // desvio condicional
   int sp = cpue_SP(self->estado);
   int val;
   if(mem_heap(self->mem)<sp && pega_mem(self, sp-1,&val)){
-    cpue_muda_SP(self,sp-1);
-    cpue_muda_A(self,val);
+    cpue_muda_SP(self->estado,sp-1);
+    cpue_muda_A(self->estado,val);
     incrementa_PC2(self);
   }else{
     cpue_muda_erro(self->estado, ERR_ESTOURO_PILHA, sp);
