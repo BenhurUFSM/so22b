@@ -59,7 +59,7 @@ mem_t *init_mem(void)
   int tam_progr = sizeof(progr)/sizeof(progr[0]);
                 
   // cria uma memória e inicializa com o programa 
-  mem_t *mem = mem_cria(tam_progr,TAM_PILHA);
+  mem_t *mem = mem_cria(tam_progr,MEMORIA_HEAP);
   for (int i = 0; i < tam_progr; i++) {
     if (mem_escreve(mem, i, progr[i]) != ERR_OK) {
       printf("Erro de memória, endereco %d\n", i);

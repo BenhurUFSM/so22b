@@ -38,7 +38,7 @@
 
         PUSHA  = 25,
         POPA   = 26,
-        PUSHX  = 25,
-        POPX   = 26,
+        PUSHX  = 27,
+        POPX   = 28,
     } opcode_t;
 #endif

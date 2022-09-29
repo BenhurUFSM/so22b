@@ -309,30 +309,51 @@ static void op_DESVE(exec_t *self) // desvio condicional
     incrementa_PC2(self);
   }
 }
-static void op_PUSHA(exec_t *self) // desvio condicional
+static void op_PUSHA(exec_t *self)
 {
   int sp = cpue_SP(self->estado);
   if(poe_mem(self, sp,cpue_A(self->estado))){
     cpue_muda_SP(self->estado,sp+1);
-    incrementa_PC2(self);
+    incrementa_PC(self);
   }else{
     cpue_muda_erro(self->estado, ERR_ESTOURO_PILHA, sp);
   }
 }
-static void op_POPA(exec_t *self) // desvio condicional
+static void op_POPA(exec_t *self)
 {
   int sp = cpue_SP(self->estado);
   int val;
   if(mem_heap(self->mem)<sp && pega_mem(self, sp-1,&val)){
     cpue_muda_SP(self->estado,sp-1);
     cpue_muda_A(self->estado,val);
-    incrementa_PC2(self);
+    incrementa_PC(self);
   }else{
     cpue_muda_erro(self->estado, ERR_ESTOURO_PILHA, sp);
   }
 }
 
-#include <stdio.h>
+static void op_PUSHX(exec_t *self)
+{
+  int sp = cpue_SP(self->estado);
+  if(poe_mem(self, sp,cpue_X(self->estado))){
+    cpue_muda_SP(self->estado,sp+1);
+    incrementa_PC(self);
+  }else{
+    cpue_muda_erro(self->estado, ERR_ESTOURO_PILHA, sp);
+  }
+}
+static void op_POPX(exec_t *self)
+{
+  int sp = cpue_SP(self->estado);
+  int val;
+  if(mem_heap(self->mem)<sp && pega_mem(self, sp-1,&val)){
+    cpue_muda_SP(self->estado,sp-1);
+    cpue_muda_X(self->estado,val);
+    incrementa_PC(self);
+  }else{
+    cpue_muda_erro(self->estado, ERR_ESTOURO_PILHA, sp);
+  }
+}
 
 
 err_t exec_executa_1(exec_t *self)
@@ -371,6 +392,8 @@ err_t exec_executa_1(exec_t *self)
     case DESVE:  op_DESVE(self);  break;
     case POPA:   op_POPA(self);   break;
     case PUSHA:  op_PUSHA(self);  break;
+    case POPX:   op_POPX(self);   break;
+    case PUSHX:  op_PUSHX(self);  break;
     default:     cpue_muda_erro(self->estado, ERR_INSTR_INV, 0);
   }
 
