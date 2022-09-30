@@ -85,3 +85,60 @@ gcc -Wall -Werror   -c -o term.o term.c
 gcc   teste.o exec.o cpu_estado.o es.o mem.o rel.o term.o   -o teste
 [benhur@nababinho t0]$ 
 ```
+
+
+### Descrição menos sucinta
+
+São dois programas, o montador e o simulador.
+O montador traduz um programa escrito em linguagem de montagem em um programa equivalente em linguagem de máquina (um arquivo com os valores que devem ser colocados na memória da máquina simulada).
+O simulador, tendo a memória inicializada com o programa, executa as instruções, simulando o comportamento de um computador.
+
+#### Montador
+
+O código do montador está no arquivo `montador.c`.
+
+O montador lê cada linha do arquivo de entrada e traduz nos códigos equivalentes.
+Por exemplo, se a linha contiver ` PARA `, ele vai gerar ` 1 ` (o código da instrução PARA, veja a tabela acima); se a linha contiver ` LE 3 ` ele vai gerar ` 19 3 `.
+
+Além dessas conversões diretas, o montador também pode dar valores a símbolos. Tem duas formas de se fazer isso, definindo explicitamente um símbolo com a pseudo instrução `DEFINE` ou com o uso de labels.
+
+Com `DEFINE` pode-se dar nomes a valores constantes. Por exemplo, a instrução ` LE 3 ` pode ser mais facilmente entendida se for escrita ` LE teclado `. Isso pode ser feito definindo `teclado` com o valor `3` com a pseudo instrução ` teclado DEFINE 3 `. É chamada de pseudo instrução porque não é uma instrução do processador, mas uma instrução interna para o montador.
+
+Labels servem para dar nomes para posições de memória. Por exemplo, se quizermos colocar uma instrução que desvie para a instrução ` LE ` acima, temos que saber em que endereço essa instrução está. Com um label, o montador calcula esse endereço. O código abaixo implementa um laço, que executará até que seja lido um valor diferente de zero do dispositivo 2. O label `denovo` será definido com o endereço onde será colocada a instrução `LE`.
+```
+   ...
+   denovo LE 2
+          DESVZ denovo
+   ...
+```
+
+Além de `DEFINE`, o montador reconhece outras duas pseudo instruções, `VALOR` e `ESPACO`. Elas são usadas para facilitar a inicialização e a reserva de espaço para variáveis do programa. `VALOR` tem um número como argumento, e coloca esse valor na próxima posição da memória. `ESPACO` também tem um número como argumento, que diz quantos zeros serão colocador nas próximas posições da memória.
+Por exemplo, se o código abaixo for montado no endereço 0, vai colocar o valor 19 (o código de LE) no endereço 0, 5 no endereço 1, 7 no 3, 9 no 4 (INCX), 0 em 5, 6 e 7 (ESPACO), 10 e 8 em 8 e 9 (SOMA).
+```
+   LE 5
+   VALOR 7
+   INCX
+   ESPACO 3
+   SOMA 8
+```
+A saída do montador para a entrada acima é:
+```
+   /*   0 */ 19, 5, 7, 9, 0, 0, 0, 10, 8,
+```
+Esse formato foi escolhido porque pode ser usado diretamente para inicializar um vetor em C:
+```
+   int memoria[] = {
+   /*   0 */ 19, 5, 7, 9, 0, 0, 0, 10, 8,
+   };
+```
+
+#### Simulador
+
+O código do simulador é formado pelos demais arquivos .c e .h.
+
+O componente principal do simulador é o executor, cuja função `exec_executa_1` simula a execução de uma instrução. Para isso, ela pega na memória o valor que está na posição do PC (que contém o código da próxima instrução a executar), e dependendo chama a função correspondente a esse valor, que será responsável pela simulação dessa instrução. Essas funções têm acesso aos registradores e à memória para realizar essa simulação. As instruções que tem argumento (A1 na tabela de instruções) podem obtê-lo na posição PC+1 da memória. Cada função é também responsável por atualizar o valor do PC caso a execução da instrução tenha transcorrido sem erro.
+
+As instruções de E/S (LE e ESCR) acessam os dispositivos através do módulo `es`.
+Para serem acessíveis os dispositivos devem antes ser registrados no módulo `es`. 
+Isso é feito na inicialização do programa, em `teste.c`, com chamadas a `es_registra_dispositivo`, contendo como argumentor o número com que esse dispositivo vai ser identificado nas instruções de E/S, o controlador desse dispositivo, o número com que esse dispositivo é identificado pelo controlador, e as funções que devem ser usadas para ler ou escrever nesse dispositivo.
+Tem dois controladores implementados, um para ler e escrever números no terminal (`term`) e um para ler o valor do relógio (`rel`). Esse último controla dois dispositivos, um relógio que conta as instruções executadas e outro que conta milisegundos.
