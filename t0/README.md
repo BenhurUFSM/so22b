@@ -82,7 +82,7 @@ gcc   teste.o exec.o cpu_estado.o es.o mem.o rel.o term.o   -o teste
 ```
 
 
-### Descrição mais detalhada
+### Descrição menos sucinta
 
 São dois programas, o montador e o simulador.
 O montador traduz um programa escrito em linguagem de montagem em um programa equivalente em linguagem de máquina (um arquivo com os valores que devem ser colocados na memória da máquina simulada).
@@ -126,3 +126,14 @@ Esse formato foi escolhido porque pode ser usado diretamente para inicializar um
    /*   0 */ 19, 5, 7, 9, 0, 0, 0, 10, 8,
    };
 ```
+
+#### Simulador
+
+O código do simulador é formado pelos demais arquivos .c e .h.
+
+O componente principal do simulador é o executor, cuja função `exec_executa_1` simula a execução de uma instrução. Para isso, ela pega na memória o valor que está na posição do PC (que contém o código da próxima instrução a executar), e dependendo chama a função correspondente a esse valor, que será responsável pela simulação dessa instrução. Essas funções têm acesso aos registradores e à memória para realizar essa simulação. As instruções que tem argumento (A1 na tabela de instruções) podem obtê-lo na posição PC+1 da memória. Cada função é também responsável por atualizar o valor do PC caso a execução da instrução tenha transcorrido sem erro.
+
+As instruções de E/S (LE e ESCR) acessam os dispositivos através do módulo `es`.
+Para serem acessíveis os dispositivos devem antes ser registrados no módulo `es`. 
+Isso é feito na inicialização do programa, em `teste.c`, com chamadas a `es_registra_dispositivo`, contendo como argumentor o número com que esse dispositivo vai ser identificado nas instruções de E/S, o controlador desse dispositivo, o número com que esse dispositivo é identificado pelo controlador, e as funções que devem ser usadas para ler ou escrever nesse dispositivo.
+Tem dois controladores implementados, um para ler e escrever números no terminal (`term`) e um para ler o valor do relógio (`rel`). Esse último controla dois dispositivos, um relógio que conta as instruções executadas e outro que conta milisegundos.
