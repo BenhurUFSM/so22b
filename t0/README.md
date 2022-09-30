@@ -80,3 +80,19 @@ gcc -Wall -Werror   -c -o term.o term.c
 gcc   teste.o exec.o cpu_estado.o es.o mem.o rel.o term.o   -o teste
 [benhur@nababinho t0]$ 
 ```
+
+
+### Descrição mais detalhada
+
+São dois programas, o montador e o simulador.
+O montador traduz um programa escrito em linguagem de montagem em um programa equivalente em linguagem de máquina (um arquivo com os valores que devem ser colocados na memória da máquina simulada).
+O simulador, tendo a memória inicializada com o programa, executa as instruções, simulando o comportamento de um computador.
+
+#### Montador
+
+Lê cada linha do arquivo de entrada e traduz nos códigos equivalentes.
+Por exemplo, se a linha contiver ` PARA `, ele vai gerar ` 1 `; se a linha contiver ` LE 3 ` ele vai gerar ` 19 3 `.
+
+Além dessas conversões diretas, o montador também pode dar valores a símbolos. Tem duas formas de se fazer isso, definindo explicitamente um símbolo com a pseudo instrução `DEFINE` ou com o uso de labels.
+
+Com `DEFINE` pode-se dar nomes a valores constantes. Por exemplo, a instrução ` LE 3 ` pode ser mais facilmente entendida se for escrita ` LE teclado `. Isso pode ser feito definindo `teclado` com o valor `3` com a pseudo instrução ` teclado DEFINE 3 `. É chamada de pseudo instrução porque não é uma instrução do processador, mas uma instrução interna para o montador.
