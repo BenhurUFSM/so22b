@@ -90,8 +90,10 @@ O simulador, tendo a memória inicializada com o programa, executa as instruçõ
 
 #### Montador
 
-Lê cada linha do arquivo de entrada e traduz nos códigos equivalentes.
-Por exemplo, se a linha contiver ` PARA `, ele vai gerar ` 1 `; se a linha contiver ` LE 3 ` ele vai gerar ` 19 3 `.
+O código do montador está no arquivo `montador.c`.
+
+O montador lê cada linha do arquivo de entrada e traduz nos códigos equivalentes.
+Por exemplo, se a linha contiver ` PARA `, ele vai gerar ` 1 ` (o código da instrução PARA, veja a tabela acima); se a linha contiver ` LE 3 ` ele vai gerar ` 19 3 `.
 
 Além dessas conversões diretas, o montador também pode dar valores a símbolos. Tem duas formas de se fazer isso, definindo explicitamente um símbolo com a pseudo instrução `DEFINE` ou com o uso de labels.
 
@@ -121,6 +123,6 @@ A saída do montador para a entrada acima é:
 Esse formato foi escolhido porque pode ser usado diretamente para inicializar um vetor em C:
 ```
    int memoria[] = {
-/*   0 */ 19, 5, 7, 9, 0, 0, 0, 10, 8,
+   /*   0 */ 19, 5, 7, 9, 0, 0, 0, 10, 8,
    };
 ```
