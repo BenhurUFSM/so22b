@@ -97,10 +97,30 @@ Além dessas conversões diretas, o montador também pode dar valores a símbolo
 
 Com `DEFINE` pode-se dar nomes a valores constantes. Por exemplo, a instrução ` LE 3 ` pode ser mais facilmente entendida se for escrita ` LE teclado `. Isso pode ser feito definindo `teclado` com o valor `3` com a pseudo instrução ` teclado DEFINE 3 `. É chamada de pseudo instrução porque não é uma instrução do processador, mas uma instrução interna para o montador.
 
-Labels servem para dar nomes para posições de memória. Por exemplo, se quizermos colocar uma instrução que desvie para a instrução ` LE ` acima, temos que saber em que endereço essa instrução está. Com um label, o montador calcula esse endereço. O código abaixo implementa um laço, que executará até que seja lido um valor diferente de zero. O label `denovo` será definido com o endereço onde será colocada a instrução `LE`.
+Labels servem para dar nomes para posições de memória. Por exemplo, se quizermos colocar uma instrução que desvie para a instrução ` LE ` acima, temos que saber em que endereço essa instrução está. Com um label, o montador calcula esse endereço. O código abaixo implementa um laço, que executará até que seja lido um valor diferente de zero do dispositivo 2. O label `denovo` será definido com o endereço onde será colocada a instrução `LE`.
 ```
    ...
    denovo LE 2
           DESVZ denovo
    ...
+```
+
+Além de `DEFINE`, o montador reconhece outras duas pseudo instruções, `VALOR` e `ESPACO`. Elas são usadas para facilitar a inicialização e a reserva de espaço para variáveis do programa. `VALOR` tem um número como argumento, e coloca esse valor na próxima posição da memória. `ESPACO` também tem um número como argumento, que diz quantos zeros serão colocador nas próximas posições da memória.
+Por exemplo, se o código abaixo for montado no endereço 0, vai colocar o valor 19 (o código de LE) no endereço 0, 5 no endereço 1, 7 no 3, 9 no 4 (INCX), 0 em 5, 6 e 7 (ESPACO), 10 e 8 em 8 e 9 (SOMA).
+```
+   LE 5
+   VALOR 7
+   INCX
+   ESPACO 3
+   SOMA 8
+```
+A saída do montador para a entrada acima é:
+```
+   /*   0 */ 19, 5, 7, 9, 0, 0, 0, 10, 8,
+```
+Esse formato foi escolhido porque pode ser usado diretamente para inicializar um vetor em C:
+```
+   int memoria[] = {
+/*   0 */ 19, 5, 7, 9, 0, 0, 0, 10, 8,
+   };
 ```
