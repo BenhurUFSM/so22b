@@ -96,3 +96,11 @@ Por exemplo, se a linha contiver ` PARA `, ele vai gerar ` 1 `; se a linha conti
 Além dessas conversões diretas, o montador também pode dar valores a símbolos. Tem duas formas de se fazer isso, definindo explicitamente um símbolo com a pseudo instrução `DEFINE` ou com o uso de labels.
 
 Com `DEFINE` pode-se dar nomes a valores constantes. Por exemplo, a instrução ` LE 3 ` pode ser mais facilmente entendida se for escrita ` LE teclado `. Isso pode ser feito definindo `teclado` com o valor `3` com a pseudo instrução ` teclado DEFINE 3 `. É chamada de pseudo instrução porque não é uma instrução do processador, mas uma instrução interna para o montador.
+
+Labels servem para dar nomes para posições de memória. Por exemplo, se quizermos colocar uma instrução que desvie para a instrução ` LE ` acima, temos que saber em que endereço essa instrução está. Com um label, o montador calcula esse endereço. O código abaixo implementa um laço, que executará até que seja lido um valor diferente de zero. O label `denovo` será definido com o endereço onde será colocada a instrução `LE`.
+```
+   ...
+   denovo LE 2
+          DESVZ denovo
+   ...
+```
