@@ -318,7 +318,7 @@ char *detona_espacos(char *s)
 // aproveita e termina se chegar no fim de linha
 void tira_comentario(char *s)
 {
-  while(*s != '\0' && *s != ';' && *s != '\n') {
+  while(*s != '\0' && *s != ';' && *s != '\n' && *s != '\r') {
     s++;
   }
   *s = '\0';
@@ -373,7 +373,9 @@ void monta_arquivo(char *nome)
     char lin[500];
     if (fgets(lin, 500, arq) == NULL) break;
     int n = strlen(lin) - 1;
-    if (lin[n] == '\n') lin[n] = '\0';
+    if (lin[n] == '\n') lin[n--] = '\0';
+    // (se o arquivo passou pelo windows, pode ter \r no final da linha)
+    if (lin[n] == '\r') lin[n--] = '\0';
     monta_string(linha, lin);
     linha++;
   }
