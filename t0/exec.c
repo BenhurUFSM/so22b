@@ -23,7 +23,7 @@ exec_t *exec_cria(mem_t *mem, es_t *es)
 
 void exec_destroi(exec_t *self)
 {
-  // eu nao criei memória, es; quem criou que destrua!
+  // eu nao criei memória nem es; quem criou que destrua!
   cpue_destroi(self->estado);
   free(self);
 }

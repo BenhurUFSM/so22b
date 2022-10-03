@@ -43,8 +43,8 @@ Ao final da execução bem sucedida de uma instrução, caso não seja uma instr
 |     16 | DESV   | 1    | PC=A1      | desvio |
 |     17 | DESVZ  | 1    | se A for 0, PC=A1 | desvio condicional |
 |     18 | DESVNZ | 1    | se A não for 0, PC=A1 | desvio condicional |
-|     19 | LE     | 1    | A=es[A1]   | leitura de E/S |
-|     20 | ESCR   | 1    | es[A1]=A   | escrita de E/S |
+|     19 | LE     | 1    | A=es[A1]   | leitura do dispositivo A1 |
+|     20 | ESCR   | 1    | es[A1]=A   | escrita no dispositivo A1 |
 
 A CPU só executa uma instrução se o registrador de erro indicar que a CPU não está em erro (valor ERR_OK).
 A execução de uma instrução pode colocar a CPU em erro, por tentativa de execução de instrução ilegal, acesso a posição inválida de memória, acesso a dispositivo de E/S inexistente, etc. 
