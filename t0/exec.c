@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-// uma CPU tem estado, memoria, controlador de ES
+// uma CPU tem estado, memória, controlador de ES
 struct exec_t {
   cpu_estado_t *estado;
   mem_t *mem;
@@ -23,7 +23,7 @@ exec_t *exec_cria(mem_t *mem, es_t *es)
 
 void exec_destroi(exec_t *self)
 {
-  // eu nao criei memoria, es; quem criou que destrua!
+  // eu nao criei memória, es; quem criou que destrua!
   cpue_destroi(self->estado);
   free(self);
 }
