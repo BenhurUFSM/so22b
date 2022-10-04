@@ -16,9 +16,6 @@
 
 typedef struct exec_t exec_t; // tipo opaco
 
-// os códigos das instruções que nossa CPU sabe executar
-#include "opcode.h"
-
 // cria uma unidade de execução com acesso à memória e ao
 //   controlador de E/S fornecidos
 exec_t *exec_cria(mem_t *mem, es_t *es);

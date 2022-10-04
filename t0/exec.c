@@ -1,6 +1,8 @@
-#include "exec.h"
 #include <stdbool.h>
 #include <stdlib.h>
+
+#include "exec.h"
+#include "instr.h"
 
 // uma CPU tem estado, memória, controlador de ES
 struct exec_t {

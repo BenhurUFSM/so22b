@@ -1,8 +1,15 @@
-#ifndef OPCODE_H
-#define OPCODE_H
+#ifndef INSTR_H
+#define INSTR_H
 
 // As instruções implementadas pelo simumador e as pseudo instruções do
 //   montador
+// As pseudo-instruções, processadas pelo montador e que não geram código são:
+//   VALOR  - inicaliza a próxima posição de memória com o valor do argumento
+//   ESPACO - reserva tantas palavras de espaço nas próximas posições da
+//            memória (corresponde a tantos "VALOR 0")
+//   DEFINE - define um valor para um símbolo (obrigatoriamente tem que ter
+//            um label, que é definido com o valor do argumento e não com a
+//            posição atual da memória)
 
 typedef enum {
   // instruções normais
@@ -29,8 +36,15 @@ typedef enum {
   LE     = 19, // 2   leitura de E/S       A=es[A1]
   ESCR   = 20, // 2   escrita de E/S       es[A1]=A
   // pseudo-instruções
-  DEFINE = -1,
-  VALOR  = -2,
-  ESPACO = -3,
+  DEFINE,
+  VALOR,
+  ESPACO,
 } opcode_t;
-#endif
+// retorna o opcode do nome
+int instr_opcode(char *nome);
+// retorna o nome do opcode
+char *instr_nome(int opcode);
+// retorna o número de argumentos do opcode
+int instr_num_args(int opcode);
+
+#endif // INSTR_H

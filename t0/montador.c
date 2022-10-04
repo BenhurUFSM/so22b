@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#include "opcode.h"
+#include "instr.h"
 
 // auxiliares
 
@@ -146,72 +146,15 @@ void ref_resolve(void)
 }
 
 
-// instruções
-
-// tabela com as instruções reconhecidas pelo montador
-// além das instruções da CPU, tem ainda algumas pseudo-instruções,
-// que são processadas pelo montador, não geram código:
-//   VALOR  - inicaliza a próxima posição de memória com o valor do argumento
-//   ESPACO - reserva tantas palavras de espaço nas próximas posições da
-//            memória (corresponde a tantos "VALOR 0")
-//   DEFINE - define um valor para um símbolo (obrigatoriamente tem que ter
-//            um label, que é definido com o valor do argumento e não com a
-//            posição atual da memória)
-
-struct {
-  char *nome;
-  int num_args;
-  int opcode;
-} instrucoes[] = {
-  { "NOP",    0,  NOP    },
-  { "PARA",   0,  PARA   },
-  { "CARGI",  1,  CARGI  },
-  { "CARGM",  1,  CARGM  },
-  { "CARGX",  1,  CARGX  },
-  { "ARMM",   1,  ARMM   },
-  { "ARMX",   1,  ARMX   },
-  { "MVAX",   0,  MVAX   },
-  { "MVXA",   0,  MVXA   },
-  { "INCX",   0,  INCX   },
-  { "SOMA",   1,  SOMA   },
-  { "SUB",    1,  SUB    },
-  { "MULT",   1,  MULT   },
-  { "DIV",    1,  DIV    },
-  { "RESTO",  1,  RESTO  },
-  { "NEG",    0,  NEG    },
-  { "DESV",   1,  DESV   },
-  { "DESVZ",  1,  DESVZ  },
-  { "DESVNZ", 1,  DESVNZ },
-  { "LE",     1,  LE     },
-  { "ESCR",   1,  ESCR   },
-  // pseudo-instrucoes
-  { "VALOR",  1,  VALOR  },
-  { "ESPACO", 1,  ESPACO },
-  { "DEFINE", 1,  DEFINE },
-};
-#define INSTR_NUM (sizeof(instrucoes)/sizeof(instrucoes[0]))
-
-// retorna a posição correspondente à instrução com o nome dado
-int instr_pos(char *nome)
-{
-  if (nome == NULL) return -1;
-  for (int i=0; i<INSTR_NUM; i++) {
-    if (strcmp(instrucoes[i].nome, nome) == 0) {
-      return i;
-    }
-  }
-  return -1;
-}
 
 // montagem
 
 // realiza a montagem de uma instrução (gera o código para ela na memória),
-//   tendo a posição da instrução na tabela e o argumento
-void monta_instrucao(int linha, int pos_instr, char *arg)
+//   tendo opcode da instrução e o argumento
+void monta_instrucao(int linha, int opcode, char *arg)
 {
   int argn;  // para conter o valor numérico do argumento
-  int opcode   = instrucoes[pos_instr].opcode;
-  int num_args = instrucoes[pos_instr].num_args;
+  int num_args = instr_num_args(opcode);
   
   // trata pseudo-opcodes antes
   if (opcode == ESPACO) {
@@ -244,10 +187,10 @@ void monta_instrucao(int linha, int pos_instr, char *arg)
 
 void monta_linha(int linha, char *label, char *instrucao, char *arg)
 {
-  int pos_instr = instr_pos(instrucao);
+  int opcode = instr_opcode(instrucao);
   // pseudo-instrução DEFINE tem que ser tratada antes, porque não pode
   //   definir o label de forma normal
-  if (pos_instr != -1 && instrucoes[pos_instr].opcode == DEFINE) {
+  if (opcode == DEFINE) {
     int argn;  // para conter o valor numérico do argumento
     if (label == NULL) {
       fprintf(stderr, "ERRO: linha %d: 'DEFINE' exige um label\n",
@@ -269,12 +212,12 @@ void monta_linha(int linha, char *label, char *instrucao, char *arg)
   
   // verifica a existência de instrução e número correto de argumentos
   if (instrucao == NULL) return;
-  if (pos_instr == -1) {
+  if (opcode == -1) {
     fprintf(stderr, "ERRO: linha %d: instrucao '%s' desconhecida\n",
                     linha, instrucao);
     return;
   }
-  int num_args = instrucoes[pos_instr].num_args;
+  int num_args = instr_num_args(opcode);
   if (num_args == 0 && arg != NULL) {
     fprintf(stderr, "ERRO: linha %d: instrucao '%s' não tem argumento\n",
                     linha, instrucao);
@@ -286,7 +229,7 @@ void monta_linha(int linha, char *label, char *instrucao, char *arg)
     return;
   }
   // tudo OK, monta a instrução
-  monta_instrucao(linha, pos_instr, arg);
+  monta_instrucao(linha, opcode, arg);
 }
 
 // retorna true se o caractere for um espaço (ou tab)
