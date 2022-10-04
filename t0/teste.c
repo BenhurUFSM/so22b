@@ -1,13 +1,14 @@
 #include "exec.h"
 #include "term.h"
 #include "rel.h"
+#include "instr.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 // funções auxiliares
 mem_t *init_mem(void);
-void imprime_estado(exec_t *exec);
+void imprime_estado(exec_t *exec, mem_t *mem);
 
 
 int main()
@@ -29,13 +30,13 @@ int main()
   // executa uma instrução por vez até CPU acusar erro
   err_t err;
   do {
-    imprime_estado(exec);
+    imprime_estado(exec, mem);
     err = exec_executa_1(exec);
     rel_tictac(rel);
   } while (err == ERR_OK);
       
   printf("Fim da execução. Estado final:\n");
-  imprime_estado(exec);
+  imprime_estado(exec, mem);
   
   // destroi todo mundo!
   exec_destroi(exec);
@@ -67,12 +68,16 @@ mem_t *init_mem(void)
   return mem;
 }
 
-void imprime_estado(exec_t *exec)
+void imprime_estado(exec_t *exec, mem_t *mem)
 {
   cpu_estado_t *estado = cpue_cria();
   exec_copia_estado(exec, estado);
-  printf("PC=%04d A=%06d X=%06d E=%d.%d\n",
-         cpue_PC(estado), cpue_A(estado), cpue_X(estado),
+  int pc, opcode = -1;
+  pc = cpue_PC(estado);
+  mem_le(mem, pc, &opcode);
+  printf("PC=%04d (%02d %-6s) A=%06d X=%06d E=%d.%d\n",
+         pc, opcode, instr_nome(opcode),
+         cpue_A(estado), cpue_X(estado),
          cpue_erro(estado), cpue_complemento(estado));
   cpue_destroi(estado);
 }
