@@ -6,6 +6,13 @@ Para auxiliar na familiarização com o código, implemente um novo dispositivo,
 
 Para auxiliar na familiarização com a CPU, implemente um programa que lê 10 valores desse dispositivo e imprime os 10 valores no terminal. Pode aumentar o grau de dificuldade imprimindo eles em ordem crescente.
 
+**Alterações em 5out**
+
+- adição das instruções DESVN, DESVP, CHAMA, RET
+- adição de um programa asm para testar as novas instruções
+- impressão da instrução e do erro durante a execução
+- o montador agora aceita as instruções em minúsculas
+
 ### Descrição sucinta
 
 A CPU tem 3 registradores:
@@ -43,8 +50,12 @@ Ao final da execução bem sucedida de uma instrução, caso não seja uma instr
 |     16 | DESV   | 1    | PC=A1      | desvio |
 |     17 | DESVZ  | 1    | se A for 0, PC=A1 | desvio condicional |
 |     18 | DESVNZ | 1    | se A não for 0, PC=A1 | desvio condicional |
-|     19 | LE     | 1    | A=es[A1]   | leitura do dispositivo A1 |
-|     20 | ESCR   | 1    | es[A1]=A   | escrita no dispositivo A1 |
+|     19 | DESVN  | 1    | se A < 0, PC=A1 | desvio condicional |
+|     20 | DESVP  | 1    | se A > 0, PC=A1 | desvio condicional |
+|     21 | CHAMA  | 1    | mem[A1]=PC+2; PC=A1+1 | chama subrotina |
+|     22 | RET    | 1    | PC=mem[A1] | chama subrotina |
+|     23 | LE     | 1    | A=es[A1]   | leitura do dispositivo A1 |
+|     24 | ESCR   | 1    | es[A1]=A   | escrita no dispositivo A1 |
 
 A CPU só executa uma instrução se o registrador de erro indicar que a CPU não está em erro (valor ERR_OK).
 A execução de uma instrução pode colocar a CPU em erro, por tentativa de execução de instrução ilegal, acesso a posição inválida de memória, acesso a dispositivo de E/S inexistente, etc. 
@@ -57,10 +68,10 @@ A implementação está dividida em vários módulos:
 - rel, um relógio
 - term, um terminal
 - cpu_estado, mantém o estado interno da CPU
-- err.h, define um tipo para codificar os erros
+- err, define um tipo para codificar os erros
 - instr, com nomes e códigos das instuções
 - teste.c, um programa para testar os módulos acima, executando um programa (tá executando o ex1, para executar o ex2 tem que alterar o fonte)
-- ex1 e ex2.asm, dois programinhas de teste em linguagem de montagem
+- ex[123].asm, programinhas de teste em linguagem de montagem
 - montador.c, um montador para transformar programas .asm em .maq (em linguagem de máquina)
 - Makefile, para facilitar a compilação da tralha toda (coloque todos esses arquivos em um diretório e execute o programa 'make' nesse diretório, se tudo der certo, um executável 'teste' será gerado)
 

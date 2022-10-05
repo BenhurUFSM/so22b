@@ -33,15 +33,20 @@ typedef enum {
   DESV   = 16, // 2   desvio               PC=A1
   DESVZ  = 17, // 2   desvio condicional   se A for 0, PC=A1
   DESVNZ = 18, // 2   desvio condicional   se A não for 0, PC=A1
-  LE     = 19, // 2   leitura de E/S       A=es[A1]
-  ESCR   = 20, // 2   escrita de E/S       es[A1]=A
+  DESVN  = 19, // 2   desvio condicional   se A < 0, PC=A1
+  DESVP  = 20, // 2   desvio condicional   se A > 0, PC=A1
+  CHAMA  = 21, // 2   chama subrotina      mem[A1]=PC+2; PC=A1+1
+  RET    = 22, // 2   retorna de subrotina PC=mem[A1]
+  LE     = 23, // 2   leitura de E/S       A=es[A1]
+  ESCR   = 24, // 2   escrita de E/S       es[A1]=A
   // pseudo-instruções
   DEFINE,
   VALOR,
   ESPACO,
+  N_OPCODE
 } opcode_t;
 // retorna o opcode do nome
-int instr_opcode(char *nome);
+opcode_t instr_opcode(char *nome);
 // retorna o nome do opcode
 char *instr_nome(int opcode);
 // retorna o número de argumentos do opcode

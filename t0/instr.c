@@ -6,7 +6,7 @@
 struct {
   char *nome;
   int num_args;
-  int opcode;
+  opcode_t opcode;
 } instrucoes[] = {
   { "NOP",    0,  NOP    },
   { "PARA",   0,  PARA   },
@@ -27,6 +27,10 @@ struct {
   { "DESV",   1,  DESV   },
   { "DESVZ",  1,  DESVZ  },
   { "DESVNZ", 1,  DESVNZ },
+  { "DESVN",  1,  DESVN  },
+  { "DESVP",  1,  DESVP  },
+  { "CHAMA",  1,  CHAMA  },
+  { "RET",    1,  RET    },
   { "LE",     1,  LE     },
   { "ESCR",   1,  ESCR   },
   // pseudo-instrucoes
@@ -34,13 +38,12 @@ struct {
   { "ESPACO", 1,  ESPACO },
   { "DEFINE", 1,  DEFINE },
 };
-#define INSTR_NUM (sizeof(instrucoes)/sizeof(instrucoes[0]))
 
-int instr_opcode(char *nome)
+opcode_t instr_opcode(char *nome)
 {
   if (nome == NULL) return -1;
-  for (int i=0; i<INSTR_NUM; i++) {
-    if (strcmp(instrucoes[i].nome, nome) == 0) {
+  for (int i=0; i<N_OPCODE; i++) {
+    if (strcasecmp(instrucoes[i].nome, nome) == 0) {
       return instrucoes[i].opcode;
     }
   }
@@ -49,7 +52,7 @@ int instr_opcode(char *nome)
 
 char *instr_nome(int opcode)
 {
-  for (int i=0; i<INSTR_NUM; i++) {
+  for (int i=0; i<N_OPCODE; i++) {
     if (instrucoes[i].opcode == opcode) {
       return instrucoes[i].nome;
     }
@@ -59,7 +62,7 @@ char *instr_nome(int opcode)
 
 int instr_num_args(int opcode)
 {
-  for (int i=0; i<INSTR_NUM; i++) {
+  for (int i=0; i<N_OPCODE; i++) {
     if (instrucoes[i].opcode == opcode) {
       return instrucoes[i].num_args;
     }

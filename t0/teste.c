@@ -53,7 +53,7 @@ mem_t *init_mem(void)
 {
   // programa para executar na nossa CPU
   int progr[] = {
-  #include "ex1.maq"
+  #include "ex3.maq"
   };
   int tam_progr = sizeof(progr)/sizeof(progr[0]);
                 
@@ -75,10 +75,18 @@ void imprime_estado(exec_t *exec, mem_t *mem)
   int pc, opcode = -1;
   pc = cpue_PC(estado);
   mem_le(mem, pc, &opcode);
-  printf("PC=%04d (%02d %-6s) A=%06d X=%06d E=%d.%d\n",
-         pc, opcode, instr_nome(opcode),
-         cpue_A(estado), cpue_X(estado),
-         cpue_erro(estado), cpue_complemento(estado));
+  printf("PC=%04d A=%06d X=%06d", pc, cpue_A(estado), cpue_X(estado));
+  printf(" %02d %s", opcode, instr_nome(opcode));
+  if (instr_num_args(opcode) > 0) {
+    int A1;
+    mem_le(mem, pc+1, &A1);
+    printf(" %d", A1);
+  }
+  err_t err = cpue_erro(estado);
+  if (err != ERR_OK) {
+    printf(" E=%d(%d) %s", err, cpue_complemento(estado), err_nome(err));
+  }
+  printf("\n");
   cpue_destroi(estado);
 }
 

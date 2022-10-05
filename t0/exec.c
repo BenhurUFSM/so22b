@@ -260,6 +260,41 @@ static void op_DESVNZ(exec_t *self) // desvio condicional
   }
 }
 
+static void op_DESVN(exec_t *self) // desvio condicional
+{
+  if (cpue_A(self->estado) < 0) {
+    op_DESV(self);
+  } else {
+    incrementa_PC2(self);
+  }
+}
+
+static void op_DESVP(exec_t *self) // desvio condicional
+{
+  if (cpue_A(self->estado) > 0) {
+    op_DESV(self);
+  } else {
+    incrementa_PC2(self);
+  }
+}
+
+static void op_CHAMA(exec_t *self) // chamada de subrotina
+{
+  int A1;
+  int PC = cpue_PC(self->estado);
+  if (pega_A1(self, &A1) && poe_mem(self, A1, PC+2)) {
+    cpue_muda_PC(self->estado, A1+1);
+  }
+}
+
+static void op_RET(exec_t *self) // retorno de subrotina
+{
+  int A1, mA1;
+  if (pega_A1(self, &A1) && pega_mem(self, A1, &mA1)) {
+    cpue_muda_PC(self->estado, mA1);
+  }
+}
+
 static void op_LE(exec_t *self) // leitura de E/S
 {
   int A1, dado;
@@ -306,6 +341,10 @@ err_t exec_executa_1(exec_t *self)
     case DESV:   op_DESV(self);   break;
     case DESVZ:  op_DESVZ(self);  break;
     case DESVNZ: op_DESVNZ(self); break;
+    case DESVN:  op_DESVN(self);  break;
+    case DESVP:  op_DESVP(self);  break;
+    case CHAMA:  op_CHAMA(self);  break;
+    case RET:    op_RET(self);    break;
     case LE:     op_LE(self);     break;
     case ESCR:   op_ESCR(self);   break;
     default:     cpue_muda_erro(self->estado, ERR_INSTR_INV, 0);

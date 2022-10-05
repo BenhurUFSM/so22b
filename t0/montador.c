@@ -72,26 +72,26 @@ void mem_imprime(void)
 #define SIMB_TAM 1000
 struct {
   char *nome;
-  int endereco;
+  int valor;
 } simbolo[SIMB_TAM];
 int simb_num;             // número d símbolos na tabela
 
 // retorna o valor de um símbolo, ou -1 se não existir na tabela
-int simb_endereco(char *nome)
+int simb_valor(char *nome)
 {
   for (int i=0; i<simb_num; i++) {
     if (strcmp(nome, simbolo[i].nome) == 0) {
-      return simbolo[i].endereco;
+      return simbolo[i].valor;
     }
   }
   return -1;
 }
 
 // insere um novo símbolo na tabela
-void simb_novo(char *nome, int endereco)
+void simb_novo(char *nome, int valor)
 {
   if (nome == NULL) return;
-  if (simb_endereco(nome) != -1) {
+  if (simb_valor(nome) != -1) {
     fprintf(stderr, "ERRO: redefinicao do simbolo '%s'\n", nome);
     return;
   }
@@ -99,7 +99,7 @@ void simb_novo(char *nome, int endereco)
     erro_brabo("Excesso de símbolos. Aumente SIMB_TAM no montador.");
   }
   simbolo[simb_num].nome = strdup(nome);
-  simbolo[simb_num].endereco = endereco;
+  simbolo[simb_num].valor = valor;
   simb_num++;
 }
 
@@ -135,13 +135,13 @@ void ref_nova(char *nome, int linha, int endereco)
 void ref_resolve(void)
 {
   for (int i=0; i<ref_num; i++) {
-    int endereco = simb_endereco(ref[i].nome);
-    if (endereco == -1) {
+    int valor = simb_valor(ref[i].nome);
+    if (valor == -1) {
       fprintf(stderr, 
               "ERRO: simbolo '%s' referenciado na linha %d não foi definido\n",
               ref[i].nome, ref[i].linha);
     }
-    mem_altera(ref[i].endereco, endereco);
+    mem_altera(ref[i].endereco, valor);
   }
 }
 
@@ -158,7 +158,10 @@ void monta_instrucao(int linha, int opcode, char *arg)
   
   // trata pseudo-opcodes antes
   if (opcode == ESPACO) {
-    if (!tem_numero(arg, &argn) || argn < 1) {
+    if (!tem_numero(arg, &argn)) {
+      argn = simb_valor(arg);
+    }
+    if (argn < 1) {
       fprintf(stderr, "ERRO: linha %d 'ESPACO' deve ter valor positivo\n",
               linha);
       return;
