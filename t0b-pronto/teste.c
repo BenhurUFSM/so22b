@@ -68,18 +68,21 @@ mem_t *init_mem(void)
   
 void imprime_estado(exec_t *exec, mem_t *mem)
 {
+  // pega o estado da CPU, imprime registradores, opcode, instrução
   cpu_estado_t *estado = cpue_cria();
   exec_copia_estado(exec, estado);
   int pc, opcode = -1;
   pc = cpue_PC(estado);
   mem_le(mem, pc, &opcode);
-  printf("PC=%04d A=%06d X=%06d", pc, cpue_A(estado), cpue_X(estado));
-  printf(" %02d %s", opcode, instr_nome(opcode));
+  printf("PC=%04d A=%06d X=%06d %02d %s",
+          pc, cpue_A(estado), cpue_X(estado), opcode, instr_nome(opcode));
+  // imprime argumento da instrução, se houver
   if (instr_num_args(opcode) > 0) {
     int A1;
     mem_le(mem, pc+1, &A1);
     printf(" %d", A1);
   }
+  // imprime estado de erro da CPU, se for o caso
   err_t err = cpue_erro(estado);
   if (err != ERR_OK) {
     printf(" E=%d(%d) %s", err, cpue_complemento(estado), err_nome(err));
