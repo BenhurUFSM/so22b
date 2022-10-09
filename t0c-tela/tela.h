@@ -12,6 +12,9 @@
 
 #include <stdbool.h>
 
+#define N_LIN 24  // número de linhas na tela
+#define N_COL 80  // número de colunas na tela
+#define N_TERM 8  // número de terminais, cada um ocupa 2 linhas na tela
 
 // inicializa a tela
 void t_inicio(void);
@@ -35,6 +38,9 @@ int t_le(int t);
 
 // insere um número a ser lido do terminal t
 void t_ins(int t, int n);
+
+// imprime na linha de status
+void t_status(char *txt);
 
 // imprime no console
 int t_printf(char *formato, ...);

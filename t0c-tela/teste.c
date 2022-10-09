@@ -12,6 +12,8 @@
 // funções auxiliares
 mem_t *init_mem(void);
 void imprime_estado(exec_t *exec, mem_t *mem);
+void status_estado(exec_t *exec, mem_t *mem);
+
 int main()
 {
   // cria o hardware
@@ -33,7 +35,7 @@ int main()
   // executa uma instrução por vez até CPU acusar erro
   err_t err;
   do {
-    //imprime_estado(exec, mem);
+    status_estado(exec, mem);
     err = exec_executa_1(exec);
     rel_tictac(rel);
     t_atualiza();
@@ -74,9 +76,8 @@ mem_t *init_mem(void)
   return mem;
   }
   
-void imprime_estado(exec_t *exec, mem_t *mem)
+static void str_estado(char *txt, exec_t *exec, mem_t *mem)
 {
-  char txt[80];
   // pega o estado da CPU, imprime registradores, opcode, instrução
   cpu_estado_t *estado = cpue_cria();
   exec_copia_estado(exec, estado);
@@ -100,6 +101,19 @@ void imprime_estado(exec_t *exec, mem_t *mem)
     sprintf(aux, " E=%d(%d) %s", err, cpue_complemento(estado), err_nome(err));
     strcat(txt, aux);
   }
-  t_printf("%s", txt);
   cpue_destroi(estado);
+}
+
+void imprime_estado(exec_t *exec, mem_t *mem)
+{
+  char s[N_COL+1];
+  str_estado(s, exec, mem);
+  t_printf("%s", s);
+}
+
+void status_estado(exec_t *exec, mem_t *mem)
+{
+  char s[N_COL+1];
+  str_estado(s, exec, mem);
+  t_status(s);
 }

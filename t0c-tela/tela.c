@@ -11,50 +11,48 @@ typedef struct {
   int num[FN_TAM]; // os números
   int n;           // quantos números válidos tem
 } fila_de_numeros;
-void fn_zera(fila_de_numeros *f)
+void fn_zera(fila_de_numeros *f)  // esvazia a fila
 {
   f->n = 0;
 }
-int fn_n(fila_de_numeros *f)
+int fn_n(fila_de_numeros *f)      // retorna o número de elementor na fila
 {
   return f->n;
 }
-bool fn_cheia(fila_de_numeros *f)
+bool fn_cheia(fila_de_numeros *f) // retorna true se a fila estiver cheia
 {
   return fn_n(f) >= FN_TAM;
 }
-bool fn_vazia(fila_de_numeros *f)
+bool fn_vazia(fila_de_numeros *f) // retorna true se a fila estiver vazia
 {
   return fn_n(f) == 0;
 }
-void fn_ins(fila_de_numeros *f, int n)
+void fn_ins(fila_de_numeros *f, int n) // insere n na fila f
 {
   if (f->n < FN_TAM) f->num[f->n++] = n;
 }
-int fn_rem(fila_de_numeros *f)
+int fn_rem(fila_de_numeros *f)    // remove (e retorna) o próximo da fila
 {
   if (f->n <= 0) return 0;
   int r = f->num[--f->n];
   memmove(&(f->num[0]), &(f->num[1]), f->n * sizeof(int));
   return r;
 }
-int fn_num(fila_de_numeros *f, int n)
+int fn_num(fila_de_numeros *f, int n) // retorna o n-ésimo da fila
 {
   return f->num[n];
 }
 // fim da fila de números
 
 
-#define N_LIN 24  // número de linhas na tela
-#define N_COL 80  // número de colunas na tela
-#define N_TERM 8  // número de terminais, cada um ocupa 2 linhas na tela
-#define N_LIN_CONS ((N_LIN)-1-(N_TERM)*2)  // número de linhas pra console
+#define N_LIN_CONS ((N_LIN)-2-(N_TERM)*2)  // número de linhas pra console
 
 struct {
-  fila_de_numeros entrada[N_TERM];
-  fila_de_numeros saida[N_TERM];
-  char txt_console[N_LIN_CONS][N_COL+1];
-  char digitando[N_COL+1];
+  fila_de_numeros entrada[N_TERM];        // uma fila de entrada por terminal
+  fila_de_numeros saida[N_TERM];          // uma fila de saída por terminal
+  char txt_status[N_COL+1];               // texto da linha de status
+  char txt_console[N_LIN_CONS][N_COL+1];  // texto das linhas da console
+  char digitando[N_COL+1];                // texto da linha sendo digitada
 } tela;
 
 void t_inicio(void)
@@ -143,8 +141,15 @@ static void insere_strings_na_console(char *s)
   }
 }
 
+void t_status(char *txt)
+{
+  sprintf(tela.txt_status, "%-*s", N_COL, txt);
+}
+
 int t_printf(char *formato, ...)
 {
+  // esta função usa número variável de argumentos. Dá uma olhada em:
+  // https://www.geeksforgeeks.org/variadic-functions-in-c/
   char s[sizeof(tela.txt_console)];
   va_list arg;
   va_start(arg, formato);
@@ -155,6 +160,12 @@ int t_printf(char *formato, ...)
 
 static void interpreta_entrada(void)
 {
+  // por enquanto, reconhece os comandos tz e tn
+  //   t é uma letra que identifica o terminal (a é o 1°, b o 2°, etc)
+  //   z é a letra z mesmo
+  //   n é uma número (sequência reconhecida pelo %d do scanf)
+  // tz esvazia a fila de saída do terminal t
+  // tn insere n na fila de entrada do terminal t
   int t = tela.digitando[0] - 'a';
   if (t >= 0 && t < N_TERM) {
     if (tela.digitando[1] == 'z') { // limpa a saída do terminal
@@ -172,24 +183,24 @@ static void interpreta_entrada(void)
   tela.digitando[0] = '\0';
 }
 
+// vê se tem algum caractere digitado no teclado
+//   adiciona à linha sendo digitada ou remove se for backspace ou
+//   interpreta a linha se for enter
 static void verifica_entrada(void)
 {
   int ch = getch();
   if (ch == ERR) return;
   int l = strlen(tela.digitando);
-  if ((ch == '\b' || ch == 0x7f) && l > 0) {   // backspace ou del
-    tela.digitando[l-1] = '\0';
+  if ((ch == '\b' || ch == 0x7f)) {   // backspace ou del
+    if (l > 0) {
+      tela.digitando[l-1] = '\0';
+    }
   } else if (ch == '\n') {
     interpreta_entrada();
   } else if (ch >= ' ' && ch < 127 && l < N_COL) {
     tela.digitando[l] = ch;
     tela.digitando[l+1] = '\0';
   } // senão, ignora o caractere digitado
-  else {
-    char s[10];
-    sprintf(s, "[%x]", ch);
-    strcat(tela.digitando, s);
-  }
 }
 
 static void desenha_terminal(int t)
@@ -215,13 +226,19 @@ static void desenha_terminais(void)
   }
 }
 
+static void desenha_status(void)
+{
+  attron(COLOR_PAIR(4));
+  mvprintw(N_TERM*2, 0, "%-*s", N_COL, tela.txt_status);
+  attroff(COLOR_PAIR(4));
+}
+
 static void desenha_console(void)
 {
   attron(COLOR_PAIR(3));
   for (int l=0; l<N_LIN_CONS; l++) {
     int y = 23 - N_LIN_CONS + l;
-    mvprintw(y, 0, "%80s", "");
-    mvprintw(y, 0, "%s", tela.txt_console[l]);
+    mvprintw(y, 0, "%-*s", N_COL, tela.txt_console[l]);
   }
   attroff(COLOR_PAIR(3));
 }
@@ -229,7 +246,7 @@ static void desenha_console(void)
 static void desenha_entrada(void)
 {
   attron(COLOR_PAIR(4));
-  mvprintw(23, 0, "%79s", "");
+  mvprintw(23, 0, "%-*s", N_COL, "");
   mvprintw(23, 0, "%s", tela.digitando);
   attroff(COLOR_PAIR(4));
 }
@@ -240,10 +257,12 @@ void t_atualiza(void)
 
   // desenha a tela:
   //   duas linhas para cada terminal, 
+  //   uma linha de status
   //   tantas linhas da console,
   //   uma linha de entrada
   //clear();
   desenha_terminais();
+  desenha_status();
   desenha_console();
   desenha_entrada();
 
