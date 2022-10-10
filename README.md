@@ -39,45 +39,44 @@ Breve
 |      |  20set | feriado
 |    3 |  22set | introdução (1.2.3–1.3.1)
 |    4 |  27set | introdução (-1.5.1)
-|    5 |  29set | 
-|    6 |   4out |
-|    7 |   6out | 
-|      |  11out | véspera de feriado
-|    8 |  13out | 
-|    9 |  18out | 
-|   10 |  20out |
-|   11 |  25out | 
-|   12 |  27out |
-|      |   1nov | véspera de feriado
-|   13 |   3nov |
+|    5 |  29set | introdução (1.5.2-5, 1.6-1.6.4, 1.7)
+|    6 |   4out | processos (2-2.1.6)
+|    7 |   6out | processos (2.1.7, 2.4-2.4.1)
+|    8 |  11out | 
+|    9 |  13out | 
+|   10 |  18out | 
+|   11 |  20out |
+|   12 |  25out | 
+|   13 |  27out |
+|   14 |   1nov | 
+|   15 |   3nov |
 |      |   8nov | JAI
 |      |  10nov | JAI
 |      |  15nov | feriado
 |      |  17nov | SAINF
-|   14 |  22nov |
-|   15 |  24nov |
-|   16 |  29nov | 
-|   17 |   1dez | 
-|   18 |   6dez | 
+|   16 |  22nov |
+|   17 |  24nov |
+|   18 |  29nov | 
+|   19 |   1dez | 
+|   20 |   6dez | 
 |      |   8dez | feriado
-|   19 |  13dez | 
-|   20 |  15dez | 
+|   21 |  13dez | 
+|   22 |  15dez | 
 |      |  20dez | recesso
 |      |  22dez | recesso
 |      |  27dez | recesso
 |      |  29dez | recesso
-|   21 |   3jan | 
-|   22 |   5jan |
-|   23 |  10jan |
-|   24 |  12jan |
-|   25 |  17jan |
-|   26 |  19jan |
-|   27 |  24jan |
-|   28 |  26jan |
-|   29 |  31jan |
-|   30 |   2fev |
+|   23 |   3jan | 
+|   24 |   5jan |
+|   25 |  10jan |
+|   26 |  12jan |
+|   27 |  17jan |
+|   28 |  19jan |
+|   29 |  24jan |
+|   30 |  26jan |
+|   31 |  31jan |
+|   32 |   2fev |
 |      | 7ou9fev | exame
-
 
 ## Trabalhos, provas, exercícios
 
@@ -85,6 +84,7 @@ Breve
 | ----: | ---------: | :-----------
 |    T0 |            | [simulador de CPU](t0)
 |    E1 |      28set | simulador de dispositivo de leitura de números aleatórios
+|    E2 |            | altere o E1 para ficar ocupado durante 10 instruções após cada leitura
 
 Entrega do E1: junte os arquivos em um tar ou zip, envie por mail para benhur+so22b@inf.ufsm.br com assunto "SO-E1".
 
