@@ -4,6 +4,7 @@
 ;
 
 TELA   DEFINE 0
+TELA2  DEFINE 1
 TELAPL DEFINE 100
 TELAPE DEFINE 200
        CARGI 0
@@ -19,7 +20,7 @@ naole
        DESVZ esperatela
        MVXA
        ESCR TELA    ; print x
-       ESCR 3    ; print x
+       ESCR TELA2   ; print x
        INCX         ; x++
        MVXA
        SUB cont
