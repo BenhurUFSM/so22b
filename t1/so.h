@@ -8,12 +8,12 @@
 //
 // Por enquanto não faz quase nada
 
+
+typedef struct so_t so_t;
+
 #include "contr.h"
 #include "err.h"
 #include <stdbool.h>
-
-
-typedef struct so_t so_t;
 
 so_t *so_cria(contr_t *contr);
 

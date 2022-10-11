@@ -4,6 +4,7 @@
 #include "rel.h"
 #include "term.h"
 #include "es.h"
+#include "so.h"
 #include "tela.h"
 #include "instr.h"
 
@@ -19,10 +20,10 @@ struct contr_t {
   rel_t *rel;
   term_t *term;
   es_t *es;
+  so_t *so;
 };
 
 // funções auxiliares
-static mem_t *init_mem(void);
 static void status_estado(exec_t *exec, mem_t *mem);
 
 
@@ -31,7 +32,7 @@ contr_t *contr_cria(void)
   contr_t *self = malloc(sizeof(*self));
   if (self == NULL) return NULL;
   // cria a memória
-  self->mem = init_mem();
+  self->mem = mem_cria(MEM_TAM);
   // cria dispositivos de E/S (o relógio e um terminal)
   self->term = term_cria();
   self->rel = rel_cria();
@@ -44,6 +45,7 @@ contr_t *contr_cria(void)
   es_registra_dispositivo(self->es, 3, self->rel, 1, rel_le, NULL, NULL);
   // cria a unidade de execução e inicializa com a memória e E/S
   self->exec = exec_cria(self->mem, self->es);
+  self->so = NULL;
   return self;
 }
 
@@ -57,6 +59,16 @@ void contr_destroi(contr_t *self)
   t_fim();
   mem_destroi(self->mem);
   free(self);
+}
+
+void contr_informa_so(contr_t *self, so_t *so)
+{
+  self->so = so;
+}
+
+mem_t *contr_mem(contr_t *self)
+{
+  return self->mem;
 }
 
 void contr_laco(contr_t *self)
@@ -75,26 +87,6 @@ void contr_laco(contr_t *self)
 }
  
 
-// cria memória e inicializa com o conteúdo do programa
-mem_t *init_mem(void)
-{
-  // programa para executar na nossa CPU
-  int progr[] = {
-  #include "ex4.maq"
-  };
-  int tam_progr = sizeof(progr)/sizeof(progr[0]);
-
-  // cria uma memória e inicializa com o programa 
-  mem_t *mem = mem_cria(tam_progr);
-  for (int i = 0; i < tam_progr; i++) {
-    if (mem_escreve(mem, i, progr[i]) != ERR_OK) {
-      printf("Erro de memória, endereco %d\n", i);
-      exit(1);
-    }
-  }
-  return mem;
-  }
-  
 static void str_estado(char *txt, exec_t *exec, mem_t *mem)
 {
   // pega o estado da CPU, imprime registradores, opcode, instrução
