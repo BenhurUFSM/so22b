@@ -77,10 +77,11 @@ void contr_laco(contr_t *self)
   err_t err;
   do {
     err = exec_executa_1(self->exec);
+    if (err != ERR_OK) so_int(self->so, err);
     rel_tictac(self->rel);
     status_estado(self->exec, self->mem);
     t_atualiza();
-  } while (err == ERR_OK);
+  } while (so_ok(self->so));
       
   t_printf("Fim da execução.");
   t_printf("relógio: %d\n", rel_agora(self->rel));

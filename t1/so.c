@@ -29,7 +29,7 @@ void so_destroi(so_t *self)
 // houve uma interrupção do tipo err — trate-a
 void so_int(so_t *self, err_t err)
 {
-  t_printf("SO: interrupção");
+  t_printf("SO: interrupção [%s]", err_nome(err));
   self->paniquei = true;
 }
 
