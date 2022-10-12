@@ -39,6 +39,7 @@ typedef enum {
   RET    = 22, // 2   retorna de subrotina PC=mem[A1]
   LE     = 23, // 2   leitura de E/S       A=es[A1]
   ESCR   = 24, // 2   escrita de E/S       es[A1]=A
+  SISOP  = 25, // 2   chama sist. oper.    chamada A1 do SO
   // pseudo-instruções
   DEFINE,
   VALOR,

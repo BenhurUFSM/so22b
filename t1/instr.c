@@ -33,6 +33,7 @@ struct {
   { "RET",    1,  RET    },
   { "LE",     1,  LE     },
   { "ESCR",   1,  ESCR   },
+  { "SISOP",  1,  SISOP  },
   // pseudo-instrucoes
   { "VALOR",  1,  VALOR  },
   { "ESPACO", 1,  ESPACO },

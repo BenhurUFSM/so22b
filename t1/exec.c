@@ -322,6 +322,14 @@ static void op_ESCR(exec_t *self) // escrita de E/S
   }
 }
 
+static void op_SISOP(exec_t *self) // chamada ao SO
+{
+  int A1;
+  if (pega_A1(self, &A1)) {
+    cpue_muda_erro(self->estado, ERR_SISOP, A1);
+  }
+}
+
 
 err_t exec_executa_1(exec_t *self)
 {
@@ -357,6 +365,7 @@ err_t exec_executa_1(exec_t *self)
     case RET:    op_RET(self);    break;
     case LE:     op_LE(self);     break;
     case ESCR:   op_ESCR(self);   break;
+    case SISOP:  op_SISOP(self);  break;
     default:     cpue_muda_erro(self->estado, ERR_INSTR_INV, 0);
   }
 

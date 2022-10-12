@@ -8,6 +8,7 @@ static char *nomes[N_ERR] = {
   [ERR_CPU_PARADA] = "CPU parada",
   [ERR_INSTR_PRIV] = "Instrução privilegiada",
   [ERR_INSTR_INV]  = "Instrução inválida",
+  [ERR_SISOP]      = "Chamada de sistema",
   [ERR_TIC]        = "Interrupção de relógio"
 };
 
