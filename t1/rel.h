@@ -9,8 +9,9 @@
 typedef struct rel_t rel_t;
 
 // cria e inicializa um relógio
+// o relógio causa uma interrupção a cada 'periodo' chamadas a tictac
 // retorna NULL em caso de erro
-rel_t *rel_cria(void);
+rel_t *rel_cria(int periodo);
 
 // destrói um relógio
 // nenhuma outra operação pode ser realizada no relógio após esta chamada
@@ -18,7 +19,8 @@ void rel_destroi(rel_t *self);
 
 // registra a passagem de uma unidade de tempo
 // esta função é chamada pelo controlador após a execução de cada instrução
-void rel_tictac(rel_t *self);
+// retorna ERR_TIC se for hora de interromper, ou ERR_OK
+err_t rel_tictac(rel_t *self);
 
 // retorna a hora atual do sistema, em unidades de tempo
 int rel_agora(rel_t *self);
