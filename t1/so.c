@@ -18,6 +18,14 @@ so_t *so_cria(contr_t *contr)
   self->contr = contr;
   self->paniquei = false;
   init_mem(self);
+  // coloca a CPU em modo usuário
+  /*
+  cpu_estado_t *cpue = cpue_cria();
+  exec_copia_estado(contr_exec(contr), cpue);
+  cpue_muda_modo(cpue, usuario);
+  exec_altera_estado(contr_exec(contr), cpue);
+  cpue_destroi(cpue);
+  */
   return self;
 }
 

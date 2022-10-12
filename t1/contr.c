@@ -71,6 +71,11 @@ mem_t *contr_mem(contr_t *self)
   return self->mem;
 }
 
+exec_t *contr_exec(contr_t *self)
+{
+  return self->exec;
+}
+
 void contr_laco(contr_t *self)
 {
   // executa uma instrução por vez até SO dizer que chega

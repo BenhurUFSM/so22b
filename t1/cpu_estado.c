@@ -8,6 +8,7 @@ struct cpu_estado_t {
   int X;
   err_t erro;
   int complemento;
+  cpu_modo_t modo;
 };
 
 cpu_estado_t *cpue_cria(void)
@@ -20,6 +21,7 @@ cpu_estado_t *cpue_cria(void)
     self->X = 0;
     self->erro = ERR_OK;
     self->complemento = 0;
+    self->modo = supervisor;
   }
   return self;
 }
@@ -60,6 +62,11 @@ int cpue_complemento(cpu_estado_t *self)
   return self->complemento;
 }
 
+cpu_modo_t cpue_modo(cpu_estado_t *self)
+{
+  return self->modo;
+}
+
 void cpue_muda_PC(cpu_estado_t *self, int val)
 {
   self->PC = val;
@@ -81,3 +88,7 @@ void cpue_muda_erro(cpu_estado_t *self, err_t err, int complemento)
   self->complemento = complemento;
 }
 
+void cpue_muda_modo(cpu_estado_t *self, cpu_modo_t modo)
+{
+  self->modo = modo;
+}

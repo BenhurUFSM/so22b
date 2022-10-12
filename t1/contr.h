@@ -14,6 +14,7 @@ typedef struct contr_t contr_t;
 
 #include "mem.h"
 #include "so.h"
+#include "exec.h"
 
 contr_t *contr_cria(void);
 void contr_destroi(contr_t *self);
@@ -26,5 +27,6 @@ void contr_informa_so(contr_t *self, so_t *so);
 
 // funções de acesso aos componentes do hardware
 mem_t *contr_mem(contr_t *self);
+exec_t *contr_exec(contr_t *self);
 
 #endif // CONTR_H

@@ -8,6 +8,7 @@ typedef enum {
   ERR_OP_INV,        // operação inválida
   ERR_OCUP,          // dispositivo ocupado
   ERR_CPU_PARADA,    // CPU está com execução suspensa
+  ERR_INSTR_PRIV,    // instrução privilegiada
   ERR_INSTR_INV,     // instrução inválida
   ERR_TIC,           // interrupção do relógio
   N_ERR              // número de erros
