@@ -25,4 +25,6 @@ A implementação da tela foi feita usando a biblioteca `ncurses`.
 As filas de saída estão com espaço para 5 inteiros.
 O programa exemplo coloca 10 valores na saída 0 (que está sendo conectada ao terminal 'a') de forma controlada (testando se entá ocupado) e 10 valores na saída 3 (conectada ao terminal 'b'), de forma não controlada (vai dar erro se a fila estiver cheia). Para que o programa funcione corretamente até o final, o operador deve esvaziar a fila 'b' antes da fila 'a'.
 
+**ERRATA** O programa exemplo ex4 tava bugado. Agora (12out, 22h54) tá ok. Ele lê um número da primeira entrada e depois escreve 0 a N-1 nas duas saídas, como dito acima.
+
 O programa deve ser executado em um terminal com pelo menos 24 linhas de 80 colunas.
