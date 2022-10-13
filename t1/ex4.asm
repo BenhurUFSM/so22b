@@ -1,29 +1,30 @@
 ; programa de exemplo para SO
-; imprime numeros entre 0 e 9
-; agora com teste para ver se dispositivo está pronto
-;
+; lê um número do terminal 1
+; imprime numeros entre 0 e o número lido nos terminais 1 e 2
+; testa somente o primeiro dispositivo para ver se está pronto,
+;   mas escreve nos dois
 
-TELA   DEFINE 0
-TELA2  DEFINE 1
-TELAPL DEFINE 100
-TELAPE DEFINE 200
-       CARGI 0
-       MVAX         ; x=0
+TELA    DEFINE 0
+TELA2   DEFINE 1
+TELAPL  DEFINE 100
+TELAPE  DEFINE 200
+naole
+        LE TELAPL    ; espera tela ficar disponível para leitura
+        DESVZ naole
+        LE TELA      ; lê cont
+        ARMM cont
+        CARGI 0      ; x=0
+        MVAX
 ali
 esperatela
-       LE TELAPL
-       DESVZ naole
-       LE TELA
-       MVAX
-naole
-       LE TELAPE
-       DESVZ esperatela
-       MVXA
-       ESCR TELA    ; print x
-       ESCR TELA2   ; print x
-       INCX         ; x++
-       MVXA
-       SUB cont
-       DESVNZ ali   ; if x != cont goto ali
-       PARA         ; stop
-cont   VALOR 10     ; int cont=10
+        LE TELAPE    ; espera tela ficar disponível para escrita
+        DESVZ esperatela
+        MVXA         ; print x
+        ESCR TELA
+        ESCR TELA2   ; print x na tela 2
+        INCX         ; x++
+        MVXA         ; if x != cont goto ali
+        SUB cont
+        DESVNZ ali
+        PARA         ; stop
+cont    VALOR 10     ; int cont=10
