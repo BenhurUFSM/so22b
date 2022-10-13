@@ -22,4 +22,4 @@ teste.o: teste.c ${MAQS}
 	./montador $*.asm > $*.maq
 
 clean:
-	rm ${OBJS} ${TARGETS} ${MAQS}
+	rm ${OBJS} ${OBJS_MONT} ${TARGETS} ${MAQS}
