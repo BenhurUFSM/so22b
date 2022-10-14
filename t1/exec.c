@@ -334,6 +334,8 @@ static void op_SISOP(exec_t *self) // chamada ao SO
 
 err_t exec_executa_1(exec_t *self)
 {
+  // não executa se CPU estiver em estado zumbi
+  if (cpue_modo(self->estado) == zumbi) return ERR_OK;
   // não executa se CPU já estiver em erro
   if (cpue_erro(self->estado) != ERR_OK) return cpue_erro(self->estado);
 

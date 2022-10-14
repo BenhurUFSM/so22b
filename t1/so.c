@@ -88,6 +88,7 @@ static void so_trata_sisop_fim(so_t *self)
   //...
 }
 
+// trata uma interrupção de chamada de sistema
 static void so_trata_sisop(so_t *self)
 {
   // o tipo de chamada está no "complemento" do cpue
@@ -107,12 +108,21 @@ static void so_trata_sisop(so_t *self)
   }
 }
 
+// trata uma interrupção de tempo do relógio
+static void so_trata_tic(so_t *self)
+{
+  // TODO: tratar a interrupção do relógio
+}
+
 // houve uma interrupção do tipo err — trate-a
 void so_int(so_t *self, err_t err)
 {
   switch (err) {
     case ERR_SISOP:
       so_trata_sisop(self);
+      break;
+    case ERR_TIC:
+      so_trata_tic(self);
       break;
     default:
       t_printf("SO: interrupção não tratada [%s]", err_nome(err));
