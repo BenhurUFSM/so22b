@@ -43,8 +43,21 @@ void so_destroi(so_t *self)
 //            A o código de erro
 static void so_trata_sisop_le(so_t *self)
 {
+  // faz leitura assíncrona.
+  // deveria ser síncrono, verificar es_pronto() e bloquear o processo
   int disp = cpue_A(self->cpue);
-  //...
+  int val;
+  err_t err = es_le(contr_es(self->contr), disp, &val);
+  cpue_muda_A(self->cpue, err);
+  if (err == ERR_OK) {
+    cpue_muda_X(self->cpue, val);
+  }
+  // incrementa o PC
+  cpue_muda_PC(self->cpue, cpue_PC(self->cpue)+2);
+  // interrupção da cpu foi atendida
+  cpue_muda_erro(self->cpue, ERR_OK, 0);
+  // altera o estado da CPU (deveria alterar o estado do processo)
+  exec_altera_estado(contr_exec(self->contr), self->cpue);
 }
 
 // chamada de sistema para escrita de E/S
@@ -53,13 +66,25 @@ static void so_trata_sisop_le(so_t *self)
 // retorna em A o código de erro
 static void so_trata_sisop_escr(so_t *self)
 {
+  // faz escrita assíncrona.
+  // deveria ser síncrono, verificar es_pronto() e bloquear o processo
   int disp = cpue_A(self->cpue);
-  //...
+  int val = cpue_X(self->cpue);
+  err_t err = es_escreve(contr_es(self->contr), disp, val);
+  cpue_muda_A(self->cpue, err);
+  // interrupção da cpu foi atendida
+  cpue_muda_erro(self->cpue, ERR_OK, 0);
+  // incrementa o PC
+  cpue_muda_PC(self->cpue, cpue_PC(self->cpue)+2);
+  // altera o estado da CPU (deveria alterar o estado do processo)
+  exec_altera_estado(contr_exec(self->contr), self->cpue);
 }
 
-// chamada de sistema para t'ermino do processo
+// chamada de sistema para término do processo
 static void so_trata_sisop_fim(so_t *self)
 {
+  t_printf("SISOP FIM");
+  panico(self);
   //...
 }
 
@@ -107,7 +132,7 @@ static void init_mem(so_t *self)
 {
   // programa para executar na nossa CPU
   int progr[] = {
-  #include "ex4.maq"
+  #include "ex5.maq"
   };
   int tam_progr = sizeof(progr)/sizeof(progr[0]);
 

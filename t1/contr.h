@@ -28,5 +28,6 @@ void contr_informa_so(contr_t *self, so_t *so);
 // funções de acesso aos componentes do hardware
 mem_t *contr_mem(contr_t *self);
 exec_t *contr_exec(contr_t *self);
+es_t *contr_es(contr_t *self);
 
 #endif // CONTR_H

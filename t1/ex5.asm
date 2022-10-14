@@ -12,22 +12,32 @@ TELA    DEFINE 0
 TELA2   DEFINE 1
 
 naole
-        cargi TELA   ; lê cont
-        sisop SO_LE
+        ; lê cont
+        cargi TELA
+        sisop SO_LE       ; retorna A=err, X=dado
+        desvnz naole      ; se der erro, tenta de novo
+        mvxa
         armm cont
 ali
-        cargm xis    ; print xis
+        ; print xis
+        cargm xis
         mvax
-        cargi TELA
+denovo  cargi TELA
+        sisop SO_ESCR     ; impr X em A, retorna A=err
+        desvnz denovo     ; se der erro, tenta de novo
+        ; print xis na tela 2
+denovo2 cargi TELA2
         sisop SO_ESCR
-        cargi TELA2  ; print xis na tela 2
-        sisop SO_ESCR
-        incx         ; xis++   (o xis ainda tá em X)
+        desvnz denovo2
+        ; xis++   (xis ainda tá em X)
+        incx
         mvxa
         armm xis
-        sub cont     ; if xis <= cont goto ali
+        ; if xis <= cont goto ali
+        sub cont
         desvn ali
         desvz ali
-        sisop SO_FIM ; stop
+        ; termina
+        sisop SO_FIM
 cont    espaco 1     ; int cont
 xis     valor 1      ; int xis=1

@@ -76,6 +76,11 @@ exec_t *contr_exec(contr_t *self)
   return self->exec;
 }
 
+es_t *contr_es(contr_t *self)
+{
+  return self->es;
+}
+
 void contr_laco(contr_t *self)
 {
   // executa uma instrução por vez até SO dizer que chega

@@ -327,6 +327,7 @@ static void op_SISOP(exec_t *self) // chamada ao SO
   int A1;
   if (pega_A1(self, &A1)) {
     cpue_muda_erro(self->estado, ERR_SISOP, A1);
+    // não incrementa o PC, o SO deve fazer isso
   }
 }
 
