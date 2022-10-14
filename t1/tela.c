@@ -4,6 +4,7 @@
 #include <curses.h>  // tomara que eu não me arrependa!
 #include <locale.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 // fila de números
 #define FN_TAM 5  // quantos números cabem numa fila
@@ -47,12 +48,19 @@ int fn_num(fila_de_numeros *f, int n) // retorna o n-ésimo da fila
 
 #define N_LIN_CONS ((N_LIN)-2-(N_TERM)*2)  // número de linhas pra console
 
+typedef enum {
+  nao_sai_da_console,
+  deixa_executar_1,
+  executa_direto,
+} modo_da_console_t;
+
 struct {
   fila_de_numeros entrada[N_TERM];        // uma fila de entrada por terminal
   fila_de_numeros saida[N_TERM];          // uma fila de saída por terminal
   char txt_status[N_COL+1];               // texto da linha de status
   char txt_console[N_LIN_CONS][N_COL+1];  // texto das linhas da console
   char digitando[N_COL+1];                // texto da linha sendo digitada
+  modo_da_console_t modo;                 // modo de operação
 } tela;
 
 void t_inicio(void)
@@ -143,6 +151,7 @@ static void insere_strings_na_console(char *s)
 
 void t_status(char *txt)
 {
+  // imprime alinhado a esquerda ("-"), max N_COL chars ("*")
   sprintf(tela.txt_status, "%-*s", N_COL, txt);
 }
 
@@ -158,28 +167,66 @@ int t_printf(char *formato, ...)
   return r;
 }
 
+// retorna o terminal correspondente ao caractere dado, ou -1
+static int term(char c)
+{
+  int t = tolower(c) - 'a';
+  if (t >= 0 && t < N_TERM) return t;
+  return -1;
+}
+
 static void interpreta_entrada(void)
 {
-  // por enquanto, reconhece os comandos tz e tn
-  //   t é uma letra que identifica o terminal (a é o 1°, b o 2°, etc)
-  //   z é a letra z mesmo
-  //   n é uma número (sequência reconhecida pelo %d do scanf)
-  // tz esvazia a fila de saída do terminal t
-  // tn insere n na fila de entrada do terminal t
-  int t = tela.digitando[0] - 'a';
-  if (t >= 0 && t < N_TERM) {
-    if (tela.digitando[1] == 'z') { // limpa a saída do terminal
-      fn_zera(&tela.saida[t]);
-    } else { // entra um número no terminal
-      int n;
-      if (sscanf(tela.digitando+1, "%d", &n) == 1) {
-        if (!fn_cheia(&tela.entrada[t])) {
-          fn_ins(&tela.entrada[t], n);
-        }
+  // Comandos aceitos (mudou em relação a t0c!):
+  // etn entra o número n no terminal t  ex: eb30
+  // lt  lê um número do terminal t (retira da saída)  ex: lc
+  // zt  esvazia a saída do terminal t  ex: za
+  // p   para a execução
+  // s   executa uma instrução
+  // c   continua a execução
+  char *err = "OK";
+  int t, n;
+  switch (tolower(tela.digitando[0])) {
+    case 'e':
+      if ((t = term(tela.digitando[1])) == -1) {
+        err = "terminal inválido";
+      } else if (sscanf(tela.digitando+2, "%d", &n) != 1) {
+        err = "esperava número";
+      } else if (fn_cheia(&tela.entrada[t])) {
+        err = "fila cheia";
+      } else {
+        fn_ins(&tela.entrada[t], n);
       }
-    }
+      break;
+    case 'l':
+      if ((t = term(tela.digitando[1])) == -1) {
+        err = "terminal inválido";
+      } else if (fn_vazia(&tela.saida[t])) {
+        err = "fila vazia";
+      } else {
+        fn_rem(&tela.saida[t]);
+      }
+      break;
+    case 'z':
+      if ((t = term(tela.digitando[1])) == -1) {
+        err = "terminal inválido";
+      } else {
+        fn_zera(&tela.saida[t]);
+      }
+      break;
+    case 'p':
+      tela.modo = nao_sai_da_console;
+      break;
+    case 's':
+      tela.modo = deixa_executar_1;
+      break;
+    case 'c':
+      tela.modo = executa_direto;
+      break;
+    default:
+      err = "não reconhecido";
   }
-  t_printf(tela.digitando);
+  t_printf("%s [%s]", tela.digitando, err);
   tela.digitando[0] = '\0';
 }
 
@@ -246,27 +293,26 @@ static void desenha_console(void)
 static void desenha_entrada(void)
 {
   attron(COLOR_PAIR(4));
-  mvprintw(23, 0, "%-*s", N_COL, "");
+  mvprintw(23, 0, "%*s", N_COL, 
+           "P=para C=continua S=passo Lt=lê Zt=zera Etn=entra");
   mvprintw(23, 0, "%s", tela.digitando);
   attroff(COLOR_PAIR(4));
 }
 
 void t_atualiza(void)
 {
-  verifica_entrada();
+  if (tela.modo == deixa_executar_1) tela.modo = nao_sai_da_console;
+  do {
+    verifica_entrada();
 
-  // desenha a tela:
-  //   duas linhas para cada terminal, 
-  //   uma linha de status
-  //   tantas linhas da console,
-  //   uma linha de entrada
-  //clear();
-  desenha_terminais();
-  desenha_status();
-  desenha_console();
-  desenha_entrada();
+    // desenha a tela
+    desenha_terminais();
+    desenha_status();
+    desenha_console();
+    desenha_entrada();
 
-  // manda o curses fazer aparecer tudo isso
-  refresh();
+    // manda o curses fazer aparecer tudo isso
+    refresh();
+  } while (tela.modo == nao_sai_da_console);
 }
 

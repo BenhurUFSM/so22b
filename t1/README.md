@@ -21,3 +21,11 @@
    Tem ainda a chamada SO_FIM, que serve para um processo pedir para morrer. O SO entra em pânico (e encerra a execução) nessa chamada. Na verdade, o SO faz isso para qualquer interrupção que não reconheça.
 - implementação de interrupção periódica do relógio (o período é escolhido na inicialização do relógio). O SO aceita a interrupção, mas não faz nada.
 - tem um novo programa exemplo, ex5, que é uma reimplementação do ex4 com chamadas de sistema.
+- mudaram os comandos da console. Agora além de controlar as filas de E/S dá para controlar a execução. Os comandos aceitos agora são:
+  - `etn` entra o número `n` no terminal `t`  ex.: `eb30`
+  - `lt`  lê um número do terminal `t` (retira da saída)  ex.: `lc`
+  - `zt`  esvazia a saída do terminal `t`  ex: `za`
+  - `p`   para a execução
+  - `s`   executa uma instrução
+  - `c`   continua a execução
+   No início a execução está parada. 
