@@ -7,8 +7,11 @@
 
 typedef struct cpu_estado_t cpu_estado_t;  // estrutura opaca
 
-// modo de execução da CPU
-typedef enum { supervisor, usuario } cpu_modo_t;
+// modos de execução da CPU
+//   supervisor: executa todas as instruções
+//   usuario: não executa instruções privilegiadas (causa interrupção)
+//   zumbi: não executa (para quando o SO não tiver processos pronto)
+typedef enum { supervisor, usuario, zumbi } cpu_modo_t;
 
 // cria e inicializa um novo descritor de estado
 cpu_estado_t *cpue_cria(void);
