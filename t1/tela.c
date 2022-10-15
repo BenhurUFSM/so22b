@@ -252,15 +252,15 @@ static void verifica_entrada(void)
 
 static void desenha_terminal(int t)
 {
-  mvprintw(t*2, 0, "%80s", "");
-  mvprintw(t*2+1, 0, "%80s", "");
+  mvprintw(t*2, 0, "S%c%*s", t+'a', N_COL, "");
+  mvprintw(t*2+1, 0, "E%c%*s", t+'a', N_COL, "");
   for (int i=0; i<fn_n(&tela.saida[t]); i++) {
     if (i == FN_TAM-1) attron(COLOR_PAIR(5));
-    mvprintw(t*2, i*8, "%d", fn_num(&tela.saida[t], i));
+    mvprintw(t*2, i*8+2, "%8d", fn_num(&tela.saida[t], i));
     if (i == FN_TAM-1) attroff(COLOR_PAIR(5));
   }
   for (int i=0; i<fn_n(&tela.entrada[t]); i++) {
-    mvprintw(t*2+1, i*8, "%d", fn_num(&tela.entrada[t], i));
+    mvprintw(t*2+1, i*8+2, "%8d", fn_num(&tela.entrada[t], i));
   }
 }
 
