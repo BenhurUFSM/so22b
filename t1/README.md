@@ -35,4 +35,30 @@
 
 ### t1 — Implementação de processos
 
-Você deve complementar a implementação fornecida para que tenha suporte à processos, como descrito a seguir.
+Você deve complementar a implementação fornecida para que tenha suporte a multiprogramação, como descrito a seguir.
+
+O SO manterá toda a informação referente a cada processo em uma tabela de processos. No mínimo, essa tabela conterá o estado da CPU para esse processo, o estado do processo (em execução, pronto, bloqueado), informação que permita saber porque o processo está bloqueado e como/quando desbloqueá-lo. Para facilitar a implementação, manterá inclusive uma cópia de toda a memória principal. A troca de um processo para outro incluirá o salvamento e recuperação de toda a memória do sistema. Mais tarde, quando falarmos sobre gerenciamento de memória, isso será otimizado.
+
+O SO manterá um conjunto de programas que podem ser executados. Um programa é o conteúdo de um arquivo ".maq". Cada programa será designado por um número, e esse número é usado pela chamada de criação de um processo para identificar o programa a executar. Quando um processo for criado, o conteúdo da memória do processo será inicializado a partir do programa.
+
+Na inicialização, o SO deve criar um processo para executar um programa inicial. Os demais processos serão criados por chamadas "SO_CRIA" realizadas pelos processos em execução.
+
+A única forma de bloqueio de um processo será por E/S. As chamadas SO_LE e SO_ESCR devem ser alteradas para chamar es_pronto e bloquear o processo caso o dispositivo não esteja pronto. Cada vez que o SO executa, deve verificar todos os processos bloqueados, e testar se cada um deve desbloquear (chamando es_pronto).
+
+As 4 chamadas de sistema devem ser alteradas (as de E/S para bloquear processos, as demais para criação e término de processo).
+
+O escalonador pode ser o mais simples possível, escolhe qualquer dos processos que esteja pronto.
+
+O funcionamento do SO no atendimento de uma interrupção deve ser algo como:
+- identifica o processo que foi interrompido
+- salva o contexto (estado do processador, conteúdo da memória) na entrada correspondente ao processo interrompido na tabela de processos (ou não, porque pode ser que nenhum processo estivesse em execução)
+- atende à interrupção
+- verifica se deve desbloquear algum processo bloqueado
+- chama o escalonador (escolhe o processo a executar)
+- faz o despacho — recupera o contexto, correspondente ao processo escolhido
+
+Caso o escalonador não tenha conseguido escolher nenhum processo (não tem nenhum processo pronto), o despacho simplesmente coloca a CPU em modo zumbi.
+
+Dá para otimizar realizando o salvamento de contexto logo antes da recuperação, e somente se o processo a executar for diferente do que executou a última vez.
+
+A função so_ok deve causar o final da execução se não houver nenhum processo vivo no sistema.
