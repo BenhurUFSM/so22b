@@ -83,7 +83,15 @@ static void so_trata_sisop_escr(so_t *self)
 // chamada de sistema para término do processo
 static void so_trata_sisop_fim(so_t *self)
 {
-  t_printf("SISOP FIM");
+  t_printf("SISOP FIM não implementado");
+  panico(self);
+  //...
+}
+
+// chamada de sistema para criação de processo
+static void so_trata_sisop_cria(so_t *self)
+{
+  t_printf("SISOP CRIA não implementado");
   panico(self);
   //...
 }
@@ -103,6 +111,9 @@ static void so_trata_sisop(so_t *self)
       break;
     case SO_FIM:
       so_trata_sisop_fim(self);
+      break;
+    case SO_CRIA:
+      so_trata_sisop_cria(self);
       break;
     default:
   }
@@ -142,7 +153,7 @@ static void init_mem(so_t *self)
 {
   // programa para executar na nossa CPU
   int progr[] = {
-  #include "ex5.maq"
+  #include "p1.maq"
   };
   int tam_progr = sizeof(progr)/sizeof(progr[0]);
 

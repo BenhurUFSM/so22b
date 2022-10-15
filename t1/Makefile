@@ -5,7 +5,7 @@ LDLIBS = -lcurses
 OBJS = exec.o cpu_estado.o es.o mem.o rel.o term.o instr.o err.o \
 			 tela.o contr.o so.o teste.o
 OBJS_MONT = instr.o err.o montador.o
-MAQS = ex1.maq ex2.maq ex3.maq ex4.maq ex5.maq
+MAQS = ex1.maq ex2.maq ex3.maq ex4.maq ex5.maq init.maq p1.maq p2.maq
 TARGETS = teste montador
 
 all: ${TARGETS}
