@@ -42,8 +42,8 @@ Breve
 |    5 |  29set | introdução (1.5.2-5, 1.6-1.6.4, 1.7)
 |    6 |   4out | processos (2-2.1.6)
 |    7 |   6out | processos (2.1.7, 2.4-2.4.1)
-|    8 |  11out | 
-|    9 |  13out | 
+|    8 |  11out | processos (2.4.2-4, escalonamento de proc. t. real (cap7 ed3))
+|    9 |  13out | threads (2.2) [exemplo](ex-thr.c)
 |   10 |  18out | 
 |   11 |  20out |
 |   12 |  25out | 
@@ -85,6 +85,7 @@ Breve
 |    T0 |            | [simulador de CPU](t0)
 |    E1 |      28set | simulador de dispositivo de leitura de números aleatórios
 |    E2 |            | altere o E1 para ficar ocupado durante 10 instruções após cada leitura
+|    T1 |            | [implementação de processos](t1)
 
 Entrega do E1: junte os arquivos em um tar ou zip, envie por mail para benhur+so22b@inf.ufsm.br com assunto "SO-E1".
 
