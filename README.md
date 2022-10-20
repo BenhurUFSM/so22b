@@ -45,7 +45,7 @@ Breve
 |    8 |  11out | processos (2.4.2-4, escalonamento de proc. t. real (cap7 ed3))
 |    9 |  13out | threads (2.2) [exemplo](ex-thr.c)
 |   10 |  18out | comunicação entre processos (2.3-2.3.3)
-|   11 |  20out |
+|   11 |  20out | comunicação entre processos (2.3.3-2.3.7) (o que é um [semáforo](Complementos/semaforo.md))
 |   12 |  25out | 
 |   13 |  27out |
 |   14 |   1nov | 
