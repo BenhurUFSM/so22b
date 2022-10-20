@@ -116,6 +116,8 @@ static void so_trata_sisop(so_t *self)
       so_trata_sisop_cria(self);
       break;
     default:
+      t_printf("so: chamada de sistema não reconhecida %d\n", chamada);
+      panico(self);
   }
 }
 
