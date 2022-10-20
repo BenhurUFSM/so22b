@@ -44,7 +44,7 @@ Breve
 |    7 |   6out | processos (2.1.7, 2.4-2.4.1)
 |    8 |  11out | processos (2.4.2-4, escalonamento de proc. t. real (cap7 ed3))
 |    9 |  13out | threads (2.2) [exemplo](ex-thr.c)
-|   10 |  18out | 
+|   10 |  18out | comunicação entre processos (2.3-2.3.3)
 |   11 |  20out |
 |   12 |  25out | 
 |   13 |  27out |
