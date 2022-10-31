@@ -46,8 +46,8 @@ Breve
 |    9 |  13out | threads (2.2) [exemplo](ex-thr.c)
 |   10 |  18out | comunicação entre processos (2.3-2.3.3)
 |   11 |  20out | comunicação entre processos (2.3.3-2.3.7) (o que é um [semáforo](Complementos/semaforo.md))
-|   12 |  25out | 
-|   13 |  27out |
+|   12 |  25out | comunicação entre processos (2.5)
+|   13 |  27out | comunicação entre processos (2.5)
 |   14 |   1nov | 
 |   15 |   3nov |
 |      |   8nov | JAI
@@ -86,6 +86,7 @@ Breve
 |    E1 |      28set | simulador de dispositivo de leitura de números aleatórios
 |    E2 |            | altere o E1 para ficar ocupado durante 10 instruções após cada leitura
 |    T1 |            | [implementação de processos](t1)
+|    T2 |            | [implementação de escalonador](t2)
 
 Entrega do E1: junte os arquivos em um tar ou zip, envie por mail para benhur+so22b@inf.ufsm.br com assunto "SO-E1".
 
