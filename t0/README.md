@@ -53,7 +53,7 @@ Ao final da execução bem sucedida de uma instrução, caso não seja uma instr
 |     19 | DESVN  | 1    | se A < 0, PC=A1 | desvio condicional |
 |     20 | DESVP  | 1    | se A > 0, PC=A1 | desvio condicional |
 |     21 | CHAMA  | 1    | mem[A1]=PC+2; PC=A1+1 | chama subrotina |
-|     22 | RET    | 1    | PC=mem[A1] | chama subrotina |
+|     22 | RET    | 1    | PC=mem[A1] | retorna de subrotina |
 |     23 | LE     | 1    | A=es[A1]   | leitura do dispositivo A1 |
 |     24 | ESCR   | 1    | es[A1]=A   | escrita no dispositivo A1 |
 
