@@ -62,3 +62,9 @@ Caso o escalonador não tenha conseguido escolher nenhum processo (não tem nenh
 Dá para otimizar realizando o salvamento de contexto logo antes da recuperação, e somente se o processo a executar for diferente do que executou a última vez.
 
 A função so_ok deve causar o final da execução se não houver nenhum processo vivo no sistema.
+
+### Dicas (e respostas a perguntas)
+
+O funcionamento do SO descrito acima é o que se espera que a função `so_int` faça. Atualmente ela faz só a parte de atender á interrupção (parcialmente).
+
+Implementando como descrito (salvando o estado do processador no início e recuperando no final), não esqueça que para alterar o valor de algum registrador de um processo deve-se alterar o estado salvo no descritor do processo.
