@@ -46,4 +46,8 @@ err_t mmu_le(mmu_t *self, int endereco, int *pvalor);
 //   pela memória se o acesso ao endereço não puder ser feito, ou ERR_OK
 err_t mmu_escreve(mmu_t *self, int endereco, int valor);
 
+// retorna o último endereço virtual que a MMU traduziu (ou tentou traduzir)
+// função usada pelo SO para obter o endereço que causou falha de página
+int mmu_ultimo_endereco(mmu_t *self);
+
 #endif // MMU_H
