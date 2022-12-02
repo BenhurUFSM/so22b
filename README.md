@@ -87,6 +87,7 @@ Breve
 |    E2 |            | altere o E1 para ficar ocupado durante 10 instruções após cada leitura
 |    T1 |            | [implementação de processos](t1)
 |    T2 |            | [implementação de escalonador](t2)
+|    T3 |            | [implementação de paginação](t3)
 
 Entrega do E1: junte os arquivos em um tar ou zip, envie por mail para benhur+so22b@inf.ufsm.br com assunto "SO-E1".
 
