@@ -29,9 +29,20 @@ A MMU será usada para proteção de memória e relocação, mas ainda não para
 
 Defina a memória principal com tamanho suficiente para conter todos os processos que serão executados.
 O tamanho das páginas (e dos quadros) não é especialmente importante, mas deve ser levado em consideração que uma página não pode ser usada por mais de um processo por vez.
-Na criação de um processo, coloque toda o conteúdo dele em uma região livre da memória principal.
+Na criação de um processo, coloque todo o conteúdo dele em uma região livre da memória principal.
 A alocação da memória principal deve ser feita em quadros.
 Crie e inicialize uma tabela de páginas para o processo.
 A página 0 do processo deve corresponder ao primeiro quadro usado para esse processo, a página 1 ao segundo etc.
 Quando houver troca de processo, altere a tabela a ser usada pela MMU para a tabela do processo que irá executar, não altere a memória.
 
+### Parte II
+
+Foram alterados `mmu.h` e `mmu.c` para incluir a função `mmu_ultimo_endereco`, que o SO pode usar para obter o endereço que causou falha de página.
+
+Implemente memória virtual com tratamento de faltas de página e paginação por demanda.
+Reduza o tamanho da memória principal para ser bem menor que o necessário para conter todos os processos.
+Por simplicidade, a memória secundária de cada processo vai ser mantida pelo SO na entrada do processo na tabela de processos. Essa memória é inicializada na criação do processo.
+
+Na criação do processo, é criada a tabela de páginas do processo, com todas as páginas marcadas como inválidas, nenhuma delas é colocada na memória principal. As páginas serão colocadas em quadros da memória principal em resposta a interrupções de falta de página causadas pela execução do processo.
+
+Você deve implementar 2 algoritmos de substituição de páginas, e realizar medições para comparar o desemponho do sistema em 4 configurações (cada algoritmo em uma situação folgada (metade da memória necessária) ou apertada (menos de 1/5 da memória)).
