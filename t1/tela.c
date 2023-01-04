@@ -35,7 +35,8 @@ void fn_ins(fila_de_numeros *f, int n) // insere n na fila f
 int fn_rem(fila_de_numeros *f)    // remove (e retorna) o próximo da fila
 {
   if (f->n <= 0) return 0;
-  int r = f->num[--f->n];
+  int r = f->num[0];
+  f->n--;
   memmove(&(f->num[0]), &(f->num[1]), f->n * sizeof(int));
   return r;
 }
