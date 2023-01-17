@@ -88,6 +88,7 @@ Breve
 |    T1 |            | [implementação de processos](t1)
 |    T2 |            | [implementação de escalonador](t2)
 |    T3 |            | [implementação de paginação](t3)
+| final |      27jan | entrega final
 
 Entrega do E1: junte os arquivos em um tar ou zip, envie por mail para benhur+so22b@inf.ufsm.br com assunto "SO-E1".
 
