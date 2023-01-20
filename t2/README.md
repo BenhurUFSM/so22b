@@ -21,7 +21,7 @@ Você deve também computar algumas métricas do sistema. Considere como um mín
   - tempo total bloqueado (tempo no estado B)
   - tempo total de CPU (tempo no estado E)
   - tempo total de espera (tempo no estado P)
-  - tempo médio de retorno (média do tempo entre sair do estado B e entrar no E)
+  - tempo médio de ~~retorno~~ resposta (média do tempo entre sair do estado B e entrar no E)
   - número de bloqueios
   - número de preempções
 
