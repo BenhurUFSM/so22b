@@ -46,7 +46,7 @@ err_t tab_pag_traduz(tab_pag_t *self, int end_v, int *end_f)
   if (pagina < 0 || pagina >= self->num_pag) {
     return ERR_PAGINV;
   }
-  if (self->tab[pagina].valida) {
+  if (!self->tab[pagina].valida) {
     return ERR_FALPAG;
   }
   int deslocamento = end_v % self->tam_pag;
