@@ -1,5 +1,5 @@
 ; programa de exemplo para SO
-; gera 1000 números aleatórios em um vetor, ordena o vetor, imprime o primeiro e o último valores no vetor
+; lê 1000 números aleatórios em um vetor, imprime o primeiro e o último valores no vetor duas vezes
 
 ; chamadas de sistema
 SO_LE   define 1
