@@ -45,4 +45,10 @@ Por simplicidade, a memória secundária de cada processo vai ser mantida pelo S
 
 Na criação do processo, é criada a tabela de páginas do processo, com todas as páginas marcadas como inválidas, nenhuma delas é colocada na memória principal. As páginas serão colocadas em quadros da memória principal em resposta a interrupções de falta de página causadas pela execução do processo.
 
-Você deve implementar 2 algoritmos de substituição de páginas, e realizar medições para comparar o desemponho do sistema em 4 configurações (cada algoritmo em uma situação folgada (metade da memória necessária) ou apertada (menos de 1/5 da memória)).
+Você deve implementar 2 algoritmos de substituição de páginas, e realizar medições para comparar o desempenho do sistema em 4 configurações (cada algoritmo em uma situação folgada (metade da memória necessária) ou apertada (menos de 1/5 da memória)).
+
+### Atualizações
+
+Foi corrigido um bug em tab_pag.c (tava invertido o teste de página válida).
+
+Foram acrescentados 4 programas .asm (pequeno e grande, limitado por CPU e limitado por E/S), alterações de a1.asm.
