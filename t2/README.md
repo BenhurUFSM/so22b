@@ -26,3 +26,5 @@ Você deve também computar algumas métricas do sistema. Considere como um mín
   - número de preempções
 
 Você deve executar o sistema em 4 configurações diferentes (cada escalonador, com quantum grande e pequeno), para dois conjuntos de programas (que serão fornecidos), e coletar as métricas.
+
+Use os programas do t3: um conjunto com dois processos para cada programa limitado por E/S, outro com dois processos para cada programa limitado por CPU.
