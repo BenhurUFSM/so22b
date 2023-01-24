@@ -109,6 +109,10 @@ Os principais conceitos da disciplina são (veja ementa):
 - sistemas de arquivos (arquivos + diretórios; principais idéias de implementação)
 - deadlocks (recursos; condições para um deadlock; estratégias para lidar com deadlocks)
 
+Depois de receber o mail, envio uma resposta para marcar horário da conversa, que vai ser na minha sala (sala 376, 3o andar do anexo B).
+
+Em caso de desespero, dá para enviar até segunda de manhã.
+
 ## Ementa
 
 Ver [aqui](https://www.ufsm.br/ementario/disciplinas/ELC1080/).
