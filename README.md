@@ -109,7 +109,7 @@ Os principais conceitos da disciplina são (veja ementa):
 - sistemas de arquivos (arquivos + diretórios; principais idéias de implementação)
 - deadlocks (recursos; condições para um deadlock; estratégias para lidar com deadlocks)
 
-Depois de receber o mail, envio uma resposta para marcar horário da conversa, que vai ser na minha sala (sala 376, 3o andar do anexo B).
+Depois de receber o mail, envio uma resposta para marcar horário da conversa, que vai ser na minha sala (sala 376, 3o andar do anexo B, o prédio que fica ao lado do prédio que tem nossa sala de aula).
 
 Em caso de desespero, dá para enviar até segunda de manhã.
 
