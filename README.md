@@ -93,7 +93,23 @@ Breve
 
 Entrega do E1: junte os arquivos em um tar ou zip, envie por mail para benhur+so22b@inf.ufsm.br com assunto "SO-E1".
 
+#### Entrega final
+
+Envie um mail com:
+- versão final dos trabalhos implementados (com relatório de execução)
+- texto com a nota de auto-avaliação, com justificativa
+
+A nota deve medir duas coisas, mais ou menos com mesmo peso: os trabalhos (foi feito o que foi pedido? funciona? serviu para aprender os conceitos relacionados?) e a aprendizagem do conteúdo da disciplina (coloquei 20 conceitos abaixo, dá pra pensar neles +- com o mesmo peso).
+
+Os principais conceitos da disciplina são (veja ementa):
+- gerência de processos (programa x processo; modo supervisor + usuário; interrupções; quando o estado de um processo é trocado; exemplos de escalonador em cada classificação de SO)
+- comunicação entre processos/threads (condição de corrida; região crítica; exclusão mútua; mecanismos de sincronização)
+- gerência de memória (proteção + relocação; memória virtual; algoritmos de substituição de páginas)
+- gerência de E/S (dispositivo + controladores; formas de comunicação; camadas de sw de e/s)
+- sistemas de arquivos (arquivos + diretórios; principais idéias de implementação)
+- deadlocks (recursos; condições para um deadlock; estratégias para lidar com deadlocks)
+
 ## Ementa
 
-Ver [aqui](https://www.ufsm.br/ementario/disciplinas/elc1080/).
+Ver [aqui](https://www.ufsm.br/ementario/disciplinas/ELC1080/).
 
