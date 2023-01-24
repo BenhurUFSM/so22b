@@ -155,7 +155,7 @@ static void init_mem(so_t *self)
 {
   // programa para executar na nossa CPU
   int progr[] = {
-  #include "a1.maq"
+  #include "grande_cpu.maq"
   };
   int tam_progr = sizeof(progr)/sizeof(progr[0]);
 

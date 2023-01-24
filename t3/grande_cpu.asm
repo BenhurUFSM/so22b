@@ -1,16 +1,16 @@
 ; programa de exemplo para SO
-; gera 1000 números aleatórios em um vetor, ordena o vetor, imprime o primeiro e o último valores no vetor
+; gera 20 números aleatórios em um vetor, ordena o vetor, imprime o primeiro e o último valores no vetor
 
 ; chamadas de sistema
 SO_LE   define 1
 SO_ESCR define 2
 SO_FIM  define 3
 ; dispositivos de E/S
-TELA    DEFINE 1
-RANDOM  DEFINE 3  ; altere para o seu dispositivo de números aleatórios
+TELA    DEFINE 4
+RANDOM  DEFINE 10 ; altere para o seu dispositivo de números aleatórios
 
-TAMANHO DEFINE 1000
-TAM_1   DEFINE 999 ; um a menos que o tamanho
+TAMANHO DEFINE 20 ; diminui se quiser que o programa não seja tão grande
+TAM_1   DEFINE 19 ; um a menos que o tamanho
 
 main
         cargi TAMANHO
@@ -85,14 +85,14 @@ i_laco
         chama imp_int
         ; i_ind++
         cargm i_ind
-        soma um
+        soma delta
         armm i_ind
         ; if i_ind < tam_vet goto i_laco
         sub tam_vet
         desvn i_laco
         ret imprime_vet
 i_ind   espaco 1
-um      valor TAM_1  ; mudar pra 1 pra imprimir o vetor inteiro
+delta   valor TAM_1  ; mudar pra 1 pra imprimir o vetor inteiro
 
 ; retorna em A um número "aleatório" entre 0 e A-1
 ; usa o código exemplificado no manual do rand do linux
@@ -172,6 +172,7 @@ o_lacoi_fim
         cargm o_trocou
         desvnz o_laco_ext
         ret ordena_vet
+um       valor  1
 o_ind    espaco 1
 o_tmp    espaco 1
 o_trocou espaco 1
