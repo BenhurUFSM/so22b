@@ -7,7 +7,7 @@
 #include <ctype.h>
 
 // fila de números
-#define FN_TAM 5  // quantos números cabem numa fila
+#define FN_TAM 9  // quantos números cabem numa fila
 typedef struct {
   int num[FN_TAM]; // os números
   int n;           // quantos números válidos tem
