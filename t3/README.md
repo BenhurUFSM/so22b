@@ -49,6 +49,10 @@ Você deve implementar 2 algoritmos de substituição de páginas, e realizar me
 
 ### Atualizações
 
-Foi corrigido um bug em tab_pag.c (tava invertido o teste de página válida).
+23jan:
+- corrigido um bug em tab_pag.c (tava invertido o teste de página válida).
+- acrescentados 4 programas .asm (pequeno e grande, limitado por CPU e limitado por E/S), alterações de a1.asm.
 
-Foram acrescentados 4 programas .asm (pequeno e grande, limitado por CPU e limitado por E/S), alterações de a1.asm.
+24jan:
+- mmu agora seta os bits de acessada e alterada na tabela de páginas; alterou um pouco a API da tab_pag
+- correção nos programas .asm de ontem (tinha um bug, e tavam demorando demais)
