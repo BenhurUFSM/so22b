@@ -40,18 +40,30 @@ void tab_pag_destroi(tab_pag_t *self)
   }
 }
 
-err_t tab_pag_traduz(tab_pag_t *self, int end_v, int *end_f)
+err_t tab_pag_traduz(tab_pag_t *self, int end_v,
+                     int *pend_f, int *ppag, int *pdesl, int *pquadro)
 {
   int pagina = end_v / self->tam_pag;
+  int deslocamento = end_v % self->tam_pag;
+  if (ppag != NULL) {
+    *ppag = pagina;
+  }
+  if (pdesl != NULL) {
+    *pdesl = deslocamento;
+  }
   if (pagina < 0 || pagina >= self->num_pag) {
     return ERR_PAGINV;
   }
   if (!self->tab[pagina].valida) {
     return ERR_FALPAG;
   }
-  int deslocamento = end_v % self->tam_pag;
   int quadro = self->tab[pagina].quadro;
-  *end_f = quadro * self->tam_pag + deslocamento;
+  if (pquadro != NULL) {
+    *pquadro = quadro;
+  }
+  if (pend_f != NULL) {
+    *pend_f = quadro * self->tam_pag + deslocamento;
+  }
   return ERR_OK;
 }
 

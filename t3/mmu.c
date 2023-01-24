@@ -33,7 +33,8 @@ void mmu_usa_tab_pag(mmu_t *self, tab_pag_t *tab_pag)
 }
 
 // função auxiliar, traduz um endereço virtual em físico
-static err_t traduz_endereco(mmu_t *self, int end_v, int *end_f)
+static err_t traduz_endereco(mmu_t *self, int end_v, int *end_f,
+                             int *ppag, int *pdesl, int *pquadro)
 {
   self->ultimo_endereco = end_v;
   // se não tem tabela de páginas, não traduz
@@ -41,26 +42,31 @@ static err_t traduz_endereco(mmu_t *self, int end_v, int *end_f)
     *end_f = end_v;
     return ERR_OK;
   }
-  return tab_pag_traduz(self->tab_pag, end_v, end_f);
+  return tab_pag_traduz(self->tab_pag, end_v, end_f, ppag, pdesl, pquadro);
 }
 
 err_t mmu_le(mmu_t *self, int endereco, int *pvalor)
 {
   int end_fis;
-  err_t err = traduz_endereco(self, endereco, &end_fis);
+  int pagina;
+  err_t err = traduz_endereco(self, endereco, &end_fis, &pagina, NULL, NULL);
   if (err != ERR_OK) {
     return err;
   }
+  tab_pag_muda_acessada(self->tab_pag, pagina, true);
   return mem_le(self->mem, end_fis, pvalor);
 }
 
 err_t mmu_escreve(mmu_t *self, int endereco, int valor)
 {
   int end_fis;
-  err_t err = traduz_endereco(self, endereco, &end_fis);
+  int pagina;
+  err_t err = traduz_endereco(self, endereco, &end_fis, &pagina, NULL, NULL);
   if (err != ERR_OK) {
     return err;
   }
+  tab_pag_muda_acessada(self->tab_pag, pagina, true);
+  tab_pag_muda_alterada(self->tab_pag, pagina, true);
   return mem_escreve(self->mem, end_fis, valor);
 }
 

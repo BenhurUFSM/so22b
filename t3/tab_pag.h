@@ -21,11 +21,14 @@ tab_pag_t *tab_pag_cria(int num_pag, int tam_pag);
 void tab_pag_destroi(tab_pag_t *self);
 
 // traduz o endereço virtual 'end_v' em endereço físico
-// coloca o resultado da tradução em '*end_f' e retorna ERR_OK, ou,
+// coloca o resultado da tradução em '*pend_f' e retorna ERR_OK, ou,
 //   caso a tradução não seja possível, retorna:
 //   ERR_FALPAG a tabela diz que a página é inválida
 //   ERR_PAGINV a tabela não contém a página
-err_t tab_pag_traduz(tab_pag_t *self, int end_v, int *end_f);
+// se não forem NULL, coloca a página em *ppag, o deslocamento em *pdesl,
+//   e se a tradução foi OK, o quadro em *pquadro
+err_t tab_pag_traduz(tab_pag_t *self, int end_v,
+                     int *pend_f, int *ppag, int *pdesl, int *pquadro);
 
 // obtém informação sobre uma página da tabela
 bool tab_pag_valida(tab_pag_t *self, int pag);
