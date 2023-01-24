@@ -54,11 +54,11 @@ Breve
 |      |  10nov | JAI
 |      |  15nov | feriado
 |      |  17nov | SAINF
-|   16 |  22nov |
-|   17 |  24nov |
-|   18 |  29nov | 
-|   19 |   1dez | 
-|   20 |   6dez | 
+|   16 |  22nov | ger. memória
+|   17 |  24nov | ger. memória
+|   18 |  29nov | e/s
+|   19 |   1dez | e/s
+|   20 |   6dez | e/s
 |      |   8dez | feriado
 |      |  13dez | não tem aula
 |      |  15dez | não tem aula
@@ -66,12 +66,12 @@ Breve
 |      |  22dez | recesso
 |      |  27dez | recesso
 |      |  29dez | recesso
-|   21 |   3jan | 
-|   22 |   5jan |
-|   23 |  10jan |
-|   24 |  12jan |
-|   25 |  17jan |
-|   26 |  19jan |
+|   21 |   3jan | sist. arquivos
+|   22 |   5jan | sist. arquivos
+|   23 |  10jan | sist. arquivos
+|   24 |  12jan | sist. arquivos
+|   25 |  17jan | deadlocks
+|   26 |  19jan | deadlocks
 |   27 |  24jan |
 |   28 |  26jan |
 |   29 |  31jan |
