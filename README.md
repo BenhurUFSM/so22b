@@ -135,6 +135,19 @@ Outra otimização (mais chata e acho que não ganha nada, muito pelo contrário
 
 Otimização é coisa que só se faz depois que tá funcionando, depois de uma boa análise pra saber se vale mesmo a pena...
 
+Outra dica, para contabilidade do tempo em cada estado.
+
+Põe um vetor de tempos no processo (um acumulador de quanto tempo ficou em cada estado).
+Faz uma função que concentra as trocas de estado (ela serve pra fazer tudo o que tem que ser feito quando tem uma troca de estado).
+```
+   void troca_de_estado(so, proc, novo_estado)
+   {
+      proc->tempo_no_estado[proc->estado] += agora - proc->quando_trocou_de_estado;
+      proc->quando_trocou_de_estado = agora;
+      ...
+   }
+```
+
 ## Ementa
 
 Ver [aqui](https://www.ufsm.br/ementario/disciplinas/ELC1080/).
