@@ -113,6 +113,28 @@ Depois de receber o mail, envio uma resposta para marcar horário da conversa, q
 
 Em caso de desespero, dá para enviar até segunda de manhã.
 
+### Comentário sobre os trabalhos
+
+Não é o melhor lugar pra colocar isso, mas talvez atinja mais gente...
+
+O tratamento de interrupção pelo SO é para ser uma coisa simples:
+
+interrupcao:
+   - salva o estado da cpu+mem no processo que foi interrompido (se nao for zumbi)
+   - processa a interrupção (altera estado de processos, nao da CPU)
+   - ve se dá pra desbloquear alguém (altera estado de processos, não da CPU)
+   - escolhe quem vai executar (esse é o escalonador - as infos que ele precisa já devem existir, a escolha é simples)
+   - despacha (recupera o estado do processo escolhido para CPU+mem)
+
+otimização: só faz as cópias de mem no final, se não for o mesmo processo
+
+outra otimização (mais chata e acho que não ganha nada, muito pelo contrário, mas quase todo mundo fez isso):
+  - não salva o estado da CPU no processo em execução no início da interrupção, 
+  - mantém uma cópia desse estado no SO, altera esse estado, e fica tentando adivinhar quando é bom salvar no processo
+  ou na CPU, e quando não precisa recuperar esse estado ao fazer o despacho.
+
+otimização é coisa que só se faz depois que tá funcionando, se valer mesmo a pena (com o apoio de medições)...
+
 ## Ementa
 
 Ver [aqui](https://www.ufsm.br/ementario/disciplinas/ELC1080/).
