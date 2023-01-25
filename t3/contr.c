@@ -109,21 +109,25 @@ void contr_laco(contr_t *self)
 }
  
 
-static void str_estado(char *txt, exec_t *exec, mem_t *mem)
+static void str_estado(char *txt, exec_t *exec, mmu_t *mmu)
 {
   // pega o estado da CPU, imprime registradores, opcode, instrução
   cpu_estado_t *estado = cpue_cria();
   exec_copia_estado(exec, estado);
+  if (cpue_modo(estado) == zumbi) {
+    sprintf(txt, "zumbi");
+    return;
+  }
   int pc, opcode = -1;
   pc = cpue_PC(estado);
-  mem_le(mem, pc, &opcode);
+  mmu_le(mmu, pc, &opcode);
   sprintf(txt, "PC=%04d A=%06d X=%06d %02d %s",
                 pc, cpue_A(estado), cpue_X(estado), opcode, instr_nome(opcode));
   // imprime argumento da instrução, se houver
   if (instr_num_args(opcode) > 0) {
     char aux[40];
     int A1;
-    mem_le(mem, pc+1, &A1);
+    mmu_le(mmu, pc+1, &A1);
     sprintf(aux, " %d", A1);
     strcat(txt, aux);
   }
@@ -140,6 +144,6 @@ static void str_estado(char *txt, exec_t *exec, mem_t *mem)
 void contr_atualiza_estado(contr_t *self)
 {
   char s[N_COL+1];
-  str_estado(s, self->exec, self->mem);
+  str_estado(s, self->exec, self->mmu);
   t_status(s);
 }
