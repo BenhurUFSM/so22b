@@ -54,9 +54,9 @@ Você deve implementar 2 algoritmos de substituição de páginas, e realizar me
 - acrescentados 4 programas .asm (pequeno e grande, limitado por CPU e limitado por E/S), alterações de a1.asm.
 
 24jan:
-- mmu agora seta os bits de acessada e alterada na tabela de páginas; alterou um pouco a API da tab_pag
+- mmu agora seta os bits de acessada e alterada na tabela de páginas; alterou um pouco a API da tab_pag (obrigado não lembro quem)
 - correção nos programas .asm de ontem (tinha um bug, e tavam demorando demais)
 
-25jan:
+25jan (contr.c):
 - não tenta acessar os dados da CPU se estiver em modo zumbi (obrigado Gilson)
-- acessa memória uasndo a mmu, para imprimir a instrução corrente
+- acessa memória usando a mmu, para imprimir a instrução corrente
