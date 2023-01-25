@@ -50,7 +50,7 @@ Você deve implementar 2 algoritmos de substituição de páginas, e realizar me
 ### Atualizações
 
 23jan:
-- corrigido um bug em tab_pag.c (tava invertido o teste de página válida) (obrigado).
+- corrigido um bug em tab_pag.c (tava invertido o teste de página válida) (obrigado Zucchi).
 - acrescentados 4 programas .asm (pequeno e grande, limitado por CPU e limitado por E/S), alterações de a1.asm.
 
 24jan:
