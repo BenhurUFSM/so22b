@@ -47,6 +47,8 @@ Na criação do processo, é criada a tabela de páginas do processo, com todas 
 
 Você deve implementar 2 algoritmos de substituição de páginas, e realizar medições para comparar o desempenho do sistema em 4 configurações (cada algoritmo em uma situação folgada (metade da memória necessária) ou apertada (menos de 1/5 da memória)).
 
+**Atenção**, algumas instruções realizam 3 acesso à memória, com menos de três páginas pode ser que uma instrução dessas não consiga executar. Garanta que existe pelo menos esse mínimo de memória no sistema.
+
 ### Atualizações
 
 23jan:
