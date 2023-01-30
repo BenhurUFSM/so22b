@@ -95,6 +95,8 @@ Entrega do E1: junte os arquivos em um tar ou zip, envie por mail para benhur+so
 
 #### Entrega final
 
+[Planilha com datas das conversas](https://docs.google.com/spreadsheets/d/1ACH-qF7i0XcdQtasYRMEYJr3I-pXxWXc99vv4Xu_Ak0/edit?usp=sharing)
+
 Envie um mail com:
 - versão final dos trabalhos implementados (com relatório de execução)
 - texto com a nota de auto-avaliação, com justificativa
